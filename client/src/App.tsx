@@ -1,9 +1,11 @@
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
+import HomePage from "./pages/HomePage.tsx";
+
+const router = createBrowserRouter([{ path: "/", Component: HomePage }]);
+
 function App() {
-  return (
-    <div className="bg-teal-300">
-      <h1 className="flex justify-center items-center text-pink-800">test</h1>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
