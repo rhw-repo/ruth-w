@@ -38,19 +38,21 @@ const projects: Partial<ProjectSeed>[] = [
   },
 ];
 
-// Matches on title, so running the script again updates projects instead of duplicating them.
-async function seedProjects(): Promise<void> {
-  for (const data of projects) {
-    const existing = await ProjectModel.findOne({ title: data.title });
-    if (existing) {
-      existing.set(data);
-      await existing.save();
-      console.log(`Updated: ${data.title}`);
-    } else {
-      await ProjectModel.create(data);
-      console.log(`Created: ${data.title}`);
-    }
+// Matches on title, so running the script again updates the project instead of duplicating it.
+async function upsertProject(data: Partial<ProjectSeed>): Promise<void> {
+  const existing = await ProjectModel.findOne({ title: data.title });
+  if (existing) {
+    existing.set(data);
+    await existing.save();
+    console.log(`Updated: ${data.title}`);
+  } else {
+    await ProjectModel.create(data);
+    console.log(`Created: ${data.title}`);
   }
+}
+
+async function seedProjects(): Promise<void> {
+  await Promise.all(projects.map(upsertProject));
 }
 
 try {
