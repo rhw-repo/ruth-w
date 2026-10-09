@@ -68,7 +68,22 @@ node_modules/
 test-results/
 playwright-report/
 
-# Misc.
-*.sublime*
+### Windows ###
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+### Linux ###
+*~
+.directory
+.Trash-*
+.nfs*
+
+### Editors ###
+*.sublime*
+.idea/
+*.swp
+
+# Misc.
 CLAUDE.md
