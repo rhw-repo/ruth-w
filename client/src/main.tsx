@@ -6,7 +6,7 @@ import App from "./App.tsx";
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
-  dsn: "https://58f29072a2681387a92ce280a6fa229b@o4512259640524800.ingest.de.sentry.io/4512259682271312",
+  dsn: import.meta.env.VITE_SENTRY_DSN,
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
