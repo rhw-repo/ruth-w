@@ -1,10 +1,14 @@
+import * as Sentry from "@sentry/node";
 import express, { type Express, type Request, type Response } from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { connectToDatabase } from "./db.ts";
 import { ProjectModel } from "./models/Project.ts";
+
 const app: Express = express();
+
 app.use(helmet());
+
 app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173" }));
 const port = Number(process.env.PORT) || 3000;
 
@@ -32,3 +36,5 @@ await connectToDatabase();
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
+
+Sentry.setupExpressErrorHandler(app);
