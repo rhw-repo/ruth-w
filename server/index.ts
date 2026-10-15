@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/node";
 import express, { type Express, type Request, type Response } from "express";
 import helmet from "helmet";
 import cors from "cors";
@@ -36,5 +35,3 @@ await connectToDatabase();
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
-
-Sentry.setupExpressErrorHandler(app);

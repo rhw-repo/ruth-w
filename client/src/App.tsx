@@ -1,36 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import HomePage from "./pages/HomePage.tsx";
-import * as Sentry from "@sentry/react";
-// Add this button component to your app to test Sentry's error tracking
-function ErrorButton() {
-  return (
-    <button
-      onClick={() => {
-        // Send a log before throwing the error
-        Sentry.logger.info("User triggered test error", {
-          action: "test_error_button_click",
-        });
-        // Send a test metric before throwing the error
-        Sentry.metrics.count("test_counter", 1);
-        throw new Error("This is your first error!");
-      }}
-    >
-      Break the world
-    </button>
-  );
-}
 
 const router = createBrowserRouter([{ path: "/", Component: HomePage }]);
 
 function App() {
-  return (
-    <>
-      {" "}
-      <RouterProvider router={router} />
-      <ErrorButton />{" "}
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
