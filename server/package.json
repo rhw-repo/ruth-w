@@ -8,7 +8,8 @@
     "start": "node --env-file-if-exists=.env --import ./instrument.ts index.ts",
     "seed": "node --env-file=.env seed/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc -p ."
   },
   "keywords": [],
   "author": "",

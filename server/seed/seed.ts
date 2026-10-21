@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 import { connectToDatabase } from "../db.ts";
 import { ProjectModel, type Project } from "../models/Project.ts";
 
-type ProjectSeed = Omit<Project, "createdAt" | "updatedAt">;
+type ProjectSeed = Pick<Project, "title" | "summary"> &
+  Partial<Omit<Project, "title" | "summary" | "createdAt" | "updatedAt">>;
 
-const projects: Partial<ProjectSeed>[] = [
+const projects: ProjectSeed[] = [
   {
     title: "Gold Investing Website",
     summary:
@@ -39,7 +40,7 @@ const projects: Partial<ProjectSeed>[] = [
 ];
 
 // Matches on title, so running the script again updates the project instead of duplicating it.
-async function upsertProject(data: Partial<ProjectSeed>): Promise<void> {
+async function upsertProject(data: ProjectSeed): Promise<void> {
   const existing = await ProjectModel.findOne({ title: data.title });
   if (existing) {
     existing.set(data);
