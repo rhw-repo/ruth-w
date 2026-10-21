@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Project } from "../types/project.ts";
+import type { JSX } from "react/jsx-runtime";
 
 async function fetchProjects(): Promise<Project[]> {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/projects`);
@@ -9,7 +10,7 @@ async function fetchProjects(): Promise<Project[]> {
   return (await res.json()) as Project[];
 }
 
-function HomePage() {
+function HomePage(): JSX.Element {
   const { data, isPending, error } = useQuery({
     queryKey: ["projects"],
     queryFn: fetchProjects,
