@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { connectToDatabase } from "../db.ts";
-import { ProjectModel, type Project } from "../models/Project.ts";
+import { ProjectModel, type Project } from "../models/project.ts";
 
 type ProjectSeed = Pick<Project, "title" | "summary"> &
   Partial<Omit<Project, "title" | "summary" | "createdAt" | "updatedAt">>;

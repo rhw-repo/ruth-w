@@ -2,7 +2,7 @@ import express, { type Express, type Request, type Response } from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { connectToDatabase } from "./db.ts";
-import { ProjectModel } from "./models/Project.ts";
+import { ProjectModel } from "./models/project.ts";
 
 const app: Express = express();
 
