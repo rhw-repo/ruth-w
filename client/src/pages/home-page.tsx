@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Project } from "../types/project.ts";
+import type { Project } from "@/types/project.ts";
 import type { JSX } from "react/jsx-runtime";
 
 async function fetchProjects(): Promise<Project[]> {

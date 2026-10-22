@@ -38,6 +38,17 @@ export default defineConfig([
         "error",
         { "src/**/*/": "KEBAB_CASE" },
       ],
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              regex: "^\\.{1,2}/",
+              message: "Use @/ imports instead of relative paths.",
+            },
+          ],
+        },
+      ],
     },
   },
 ]);
