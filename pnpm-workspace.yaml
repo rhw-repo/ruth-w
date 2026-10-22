@@ -1,0 +1,7 @@
+minimumReleaseAge: 4320
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
+overrides:
+  "lefthook": "2.2.1"
+allowBuilds:
+  lefthook: true
