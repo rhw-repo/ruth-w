@@ -1,14 +1,16 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
+import checkFile from "eslint-plugin-check-file";
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
+    plugins: { "check-file": checkFile },
     extends: [
       js.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
@@ -23,10 +25,19 @@ export default defineConfig([
       },
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-non-null-assertion': 'error',
-      '@typescript-eslint/explicit-module-boundary-types': 'error',
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-non-null-assertion": "error",
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+      "check-file/filename-naming-convention": [
+        "error",
+        { "**/*.{ts,tsx}": "KEBAB_CASE" },
+        { ignoreMiddleExtensions: true },
+      ],
+      "check-file/folder-naming-convention": [
+        "error",
+        { "src/**/*/": "KEBAB_CASE" },
+      ],
     },
   },
-])
+]);
