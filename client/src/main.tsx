@@ -11,11 +11,9 @@ Sentry.init({
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
   ],
-  // Tracing
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
-  // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+
+  tracesSampleRate: 1.0,
   tracePropagationTargets: ["localhost", import.meta.env.VITE_API_URL],
-  // Session Replay: only record sessions where an error happens
   replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 1.0,
 });
