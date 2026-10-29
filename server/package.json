@@ -2,12 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "dev": "node --watch --env-file=.env index.ts",
-    "start": "node index.ts",
+    "dev": "node --watch --env-file=.env --import ./instrument.ts index.ts",
+    "start": "node --env-file-if-exists=.env --import ./instrument.ts index.ts",
     "seed": "node --env-file=.env seed/seed.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "typecheck": "tsc -p ."
   },
   "keywords": [],
   "author": "",
@@ -15,22 +17,28 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.10.1",
+      "version": "12.16.1",
       "onFail": "error"
     }
   },
-  "packageManager": "pnpm@12.10.1",
+  "packageManager": "pnpm@12.16.1",
   "type": "module",
   "dependencies": {
+    "@sentry/node": "^11.7.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "helmet": "^8.3.0",
     "mongoose": "^9.11.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^24.19.1",
-    "typescript": "^7.0.2"
+    "eslint": "^10.13.0",
+    "eslint-plugin-check-file": "^3.3.2",
+    "globals": "^17.13.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.2"
   }
 }
