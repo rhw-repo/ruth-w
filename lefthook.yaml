@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=./node_modules/lefthook/schema.json
+
+pre-commit:
+  parallel: true
+  commands:
+    client-lint:
+      root: client/
+      glob: "*.{ts,tsx}"
+      run: pnpm exec eslint --max-warnings=0 {staged_files}
+    client-typecheck:
+      root: client/
+      glob: "*.{ts,tsx}"
+      run: pnpm exec tsc -b
+    server-lint:
+      root: server/
+      glob: "*.ts"
+      run: pnpm exec eslint --max-warnings=0 {staged_files}
+    server-typecheck:
+      root: server/
+      glob: "*.ts"
+      run: pnpm typecheck
