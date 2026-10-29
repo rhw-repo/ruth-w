@@ -11,12 +11,10 @@ app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173" }));
 const port = Number(process.env.PORT) || 3000;
 
-// Health check
 app.get("/", (_req: Request, res: Response) => {
   res.sendStatus(204);
 });
 
-// The API is for the client app, not for viewing in the address bar.
 app.use("/api", (req, res, next) => {
   if (req.get("Sec-Fetch-Mode") === "navigate") {
     res.sendStatus(404);
