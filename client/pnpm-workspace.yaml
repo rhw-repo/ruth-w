@@ -6,3 +6,5 @@ trustPolicy: no-downgrade
 overrides:
   "semver": "7.8.5"
   "zod": ">=4.6.6"
+allowBuilds:
+  "@swc/core": true
