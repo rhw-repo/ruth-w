@@ -24,12 +24,6 @@ importers:
       '@vitejs/plugin-react-swc':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.5(@types/node@24.19.1)(jiti@2.7.0))
-      eslint-plugin-react-dom:
-        specifier: ^5.28.8
-        version: 5.28.8(eslint@10.12.0(jiti@2.7.0))(typescript@6.0.3)
-      eslint-plugin-react-x:
-        specifier: ^5.28.8
-        version: 5.28.8(eslint@10.12.0(jiti@2.7.0))(typescript@6.0.3)
       react:
         specifier: ^19.2.8
         version: 19.3.0
@@ -64,12 +58,18 @@ importers:
       eslint-plugin-check-file:
         specifier: ^3.3.2
         version: 3.3.2(eslint@10.12.0(jiti@2.7.0))
+      eslint-plugin-react-dom:
+        specifier: ^5.28.8
+        version: 5.28.8(eslint@10.12.0(jiti@2.7.0))(typescript@6.0.3)
       eslint-plugin-react-hooks:
         specifier: ^7.1.1
         version: 7.1.1(eslint@10.12.0(jiti@2.7.0))
       eslint-plugin-react-refresh:
         specifier: ^0.5.6
         version: 0.5.7(eslint@10.12.0(jiti@2.7.0))
+      eslint-plugin-react-x:
+        specifier: ^5.28.8
+        version: 5.28.8(eslint@10.12.0(jiti@2.7.0))(typescript@6.0.3)
       globals:
         specifier: ^17.12.0
         version: 17.13.0

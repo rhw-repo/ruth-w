@@ -5,6 +5,8 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import checkFile from "eslint-plugin-check-file";
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
 
 export default defineConfig([
   globalIgnores(["dist"]),
@@ -17,6 +19,8 @@ export default defineConfig([
       tseslint.configs.stylisticTypeChecked,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
+      reactX.configs["recommended-typescript"],
+      reactDom.configs.recommended,
     ],
     languageOptions: {
       globals: globals.browser,
