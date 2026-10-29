@@ -3,3 +3,6 @@ packages:
 minimumReleaseAge: 4320
 blockExoticSubdeps: true
 trustPolicy: no-downgrade
+overrides:
+  "body-parser": ">=2.4.0"
+  "qs": ">=6.16.1"
