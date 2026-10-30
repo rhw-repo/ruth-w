@@ -11,24 +11,24 @@
 
 **Stack**
 
-React,TS
-Node,
-Express,
-MongoDB
+- React, TS
+- Node
+- Express
+- MongoDB
 
 **React Libraries**
 
-TanStack Query
-Tailwind CSS
+- TanStack Query
+- Tailwind CSS
 
 **Tooling**
 
-Lefthook
-Knip.dev
-Sentry.io
-Prettier
-ESLint
-SonarQube
+- Lefthook
+- Knip
+- Sentry
+- Prettier
+- ESLint
+- SonarQube
 
 ---
 
