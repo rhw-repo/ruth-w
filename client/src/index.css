@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--color-zinc-900);
+  --color-foreground: var(--color-zinc-50);
+  --color-nav: var(--color-zinc-950);
+  --color-nav-foreground: var(--color-zinc-50);
+  --color-muted-foreground: var(--color-zinc-400);
+  --color-border: var(--color-zinc-800);
+  --color-ring: var(--color-emerald-400);
+  --color-primary: var(--color-emerald-700);
+  --color-primary-foreground: var(--color-white);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    outline-color: var(--color-ring);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
