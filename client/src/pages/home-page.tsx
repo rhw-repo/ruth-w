@@ -1,6 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Project } from "@/types/project.ts";
 import type { JSX } from "react/jsx-runtime";
+import { tv } from "tailwind-variants/lite";
+
+// TEMP: placeholder content to test page scrolling. Remove.
+const placeholder = tv({ base: "mx-auto max-w-prose space-y-4 px-4 py-8" });
+const loremIpsum =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
 
 async function fetchProjects(): Promise<Project[]> {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/projects`);
@@ -20,14 +26,21 @@ function HomePage(): JSX.Element {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <ul>
-      {data.map((project) => (
-        <li key={project._id}>
-          <h2>{project.title}</h2>
-          <p>{project.summary}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {data.map((project) => (
+          <li key={project._id}>
+            <h2>{project.title}</h2>
+            <p>{project.summary}</p>
+          </li>
+        ))}
+      </ul>
+      <div className={placeholder()}>
+        {Array.from({ length: 12 }, (_, i) => (
+          <p key={i}>{loremIpsum}</p>
+        ))}
+      </div>
+    </>
   );
 }
 

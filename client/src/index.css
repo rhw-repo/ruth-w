@@ -5,7 +5,7 @@
 @theme inline {
   --color-background: var(--color-zinc-900);
   --color-foreground: var(--color-zinc-50);
-  --color-nav: var(--color-zinc-950);
+  --color-nav: var(--color-zinc-900);
   --color-nav-foreground: var(--color-zinc-50);
   --color-muted-foreground: var(--color-zinc-400);
   --color-border: var(--color-zinc-800);
