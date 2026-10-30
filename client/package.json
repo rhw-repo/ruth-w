@@ -13,7 +13,6 @@
     "@sentry/react": "^11.6.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-query": "^5.104.1",
-    "@vitejs/plugin-react-swc": "^4.3.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router": "^8.4.0",
