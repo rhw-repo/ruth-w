@@ -22,8 +22,7 @@ async function fetchProjects(): Promise<Project[]> {
   return (await res.json()) as Project[];
 }
 
-function HomePage(): JSX.Element {
-  const isDesktop = useMediaQuery("(min-width: 64rem)");
+function ProjectList(): JSX.Element {
   const { data, isPending, error } = useQuery({
     queryKey: ["projects"],
     queryFn: fetchProjects,
@@ -31,6 +30,21 @@ function HomePage(): JSX.Element {
 
   if (isPending) return <p>Loading…</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  return (
+    <ul>
+      {data.map((project) => (
+        <li key={project._id}>
+          <h2>{project.title}</h2>
+          <p>{project.summary}</p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function HomePage(): JSX.Element {
+  const isDesktop = useMediaQuery("(min-width: 64rem)");
 
   return (
     <>
@@ -43,14 +57,7 @@ function HomePage(): JSX.Element {
           </ErrorBoundary>
         </div>
       )}
-      <ul>
-        {data.map((project) => (
-          <li key={project._id}>
-            <h2>{project.title}</h2>
-            <p>{project.summary}</p>
-          </li>
-        ))}
-      </ul>
+      <ProjectList />
       <div className={placeholder()}>
         {Array.from({ length: 12 }, (_, i) => (
           <p key={i}>{loremIpsum}</p>
