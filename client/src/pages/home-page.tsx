@@ -5,7 +5,7 @@ import type { JSX } from "react/jsx-runtime";
 async function fetchProjects(): Promise<Project[]> {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/projects`);
   if (!res.ok) {
-    throw new Error(`Request failed: ${res.status}`);
+    throw new Error(`Request failed: ${String(res.status)}`);
   }
   return (await res.json()) as Project[];
 }
