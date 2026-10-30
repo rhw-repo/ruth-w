@@ -4,7 +4,9 @@
     "-lintignore"
   ],
   "workspaces": {
-    ".": {},
+    ".": {
+      "ignoreBinaries": ["eslint", "tsc", "typecheck"]
+    },
     "client": {},
     "server": {}
   }
