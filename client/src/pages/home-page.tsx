@@ -1,7 +1,13 @@
+import { lazy, Suspense } from "react";
+import { ErrorBoundary } from "@sentry/react";
 import { useQuery } from "@tanstack/react-query";
 import type { Project } from "@/types/project.ts";
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
+import { useMediaQuery } from "@/hooks/use-media-query";
+// TEMP: trying out the Lanyard. Remove or move once decided.
+const lanyardFrame = tv({ base: "h-150 w-full" });
+const Lanyard = lazy(() => import("@/components/lanyard"));
 
 // TEMP: placeholder content to test page scrolling. Remove.
 const placeholder = tv({ base: "mx-auto max-w-prose space-y-4 px-4 py-8" });
@@ -17,6 +23,7 @@ async function fetchProjects(): Promise<Project[]> {
 }
 
 function HomePage(): JSX.Element {
+  const isDesktop = useMediaQuery("(min-width: 64rem)");
   const { data, isPending, error } = useQuery({
     queryKey: ["projects"],
     queryFn: fetchProjects,
@@ -27,6 +34,15 @@ function HomePage(): JSX.Element {
 
   return (
     <>
+      {isDesktop && (
+        <div className={lanyardFrame()}>
+          <ErrorBoundary fallback={<div />}>
+            <Suspense fallback={null}>
+              <Lanyard />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+      )}
       <ul>
         {data.map((project) => (
           <li key={project._id}>
