@@ -9,7 +9,7 @@
 
 ## Technologies used:
 
-**Build**
+**Stack**
 
 React,TS
 Node,
@@ -23,11 +23,18 @@ Tailwind CSS
 
 **Tooling**
 
-SonarQube
 Lefthook
+Knip.dev
+Sentry.io
 Prettier
+ESLint
+SonarQube
 
 ---
+
+## Current status
+
+Under construction 🚧 building in public
 
 ### Contact
 
