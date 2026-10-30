@@ -9,25 +9,32 @@
 
 ## Technologies used:
 
-**Build**
+**Stack**
 
-React,TS
-Node,
-Express,
-MongoDB
+- React, TS
+- Node
+- Express
+- MongoDB
 
 **React Libraries**
 
-TanStack Query
-Tailwind CSS
+- TanStack Query
+- Tailwind CSS
 
 **Tooling**
 
-SonarQube
-Lefthook
-Prettier
+- Lefthook
+- Knip
+- Sentry
+- Prettier
+- ESLint
+- SonarQube
 
 ---
+
+## Current status
+
+Under construction 🚧 building in public
 
 ### Contact
 
