@@ -25,7 +25,7 @@ type PathLike = {
   ): unknown;
 };
 
-export type LanyardProps = {
+type LanyardProps = {
   frontImage?: string;
   backImage?: string;
   imageFit?: ImageFit;
@@ -622,7 +622,10 @@ const buildGrainTexture = () => {
     let sum = 0;
     for (let j = -1; j <= 1; j++) {
       for (let i = -1; i <= 1; i++)
-        sum += itemAt(field, ((y + j + size) % size) * size + ((x + i + size) % size));
+        sum += itemAt(
+          field,
+          ((y + j + size) % size) * size + ((x + i + size) % size),
+        );
     }
     return (sum / 9) * 1.6;
   };
@@ -1091,7 +1094,8 @@ const stepSimulation = (
     if (body.velocity.lengthSq() > 3600) body.velocity.setLength(60);
     if (body.angular.lengthSq() > 1600) body.angular.setLength(40);
 
-    itemAt(nodes, JOINTS).copy(body.hang)
+    itemAt(nodes, JOINTS)
+      .copy(body.hang)
       .applyQuaternion(body.quaternion)
       .add(body.position);
     for (let i = 0; i < JOINTS; i++)
@@ -1101,7 +1105,8 @@ const stepSimulation = (
   if (grab) grab.from.copy(grab.target);
 
   let energy = body.velocity.lengthSq() + body.angular.lengthSq() * 0.3;
-  for (let i = 1; i < JOINTS; i++) energy += itemAt(velocities, i).lengthSq() * 0.05;
+  for (let i = 1; i < JOINTS; i++)
+    energy += itemAt(velocities, i).lengthSq() * 0.05;
   sim.calm = energy < 2e-4 ? sim.calm + dt : 0;
 };
 
@@ -1318,8 +1323,9 @@ const Lanyard = ({
     let hovering = false;
     let press: Press | null = null;
     let imageToken = 0;
-    const reducedMotion =
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     const paintFaces = () => {
       const s = settingsRef.current;
@@ -1518,7 +1524,10 @@ const Lanyard = ({
       const hang = itemAt(sim.nodes, JOINTS);
       const reach = EYELET_RADIUS + CLAMP_BODY + 0.05;
       let guide = JOINTS - 1;
-      while (guide > 0 && itemAt(sim.nodes, guide).distanceTo(hang) < reach * 1.1)
+      while (
+        guide > 0 &&
+        itemAt(sim.nodes, guide).distanceTo(hang) < reach * 1.1
+      )
         guide--;
       const axis = work.up.subVectors(itemAt(sim.nodes, guide), hang);
       if (axis.lengthSq() < 1e-8)
