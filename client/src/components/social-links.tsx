@@ -1,18 +1,7 @@
 import type { JSX } from "react";
 import { tv, type VariantProps } from "tailwind-variants/lite";
 import ExternalLink from "@/components/external-link.tsx";
-import GitHubIcon from "@/components/icons/github-icon.tsx";
-import LinkedInIcon from "@/components/icons/linkedin-icon.tsx";
-
-// Hardcoded until the profile-links schema serves these from the API
-const socialLinks = [
-  { label: "GitHub", href: "https://github.com/rhw-repo", Icon: GitHubIcon },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/ruth-westnidge/",
-    Icon: LinkedInIcon,
-  },
-];
+import { socialLinks } from "@/config/social-links.ts";
 
 // Padding is 25% of the icon size, for the logos' clear space
 const socialLinksStyles = tv({

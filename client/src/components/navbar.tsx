@@ -2,14 +2,7 @@ import { useEffect, useRef, useState, type JSX } from "react";
 import { Link, NavLink } from "react-router";
 import { tv } from "tailwind-variants/lite";
 import SocialLinks from "@/components/social-links.tsx";
-
-type NavItem = { label: string; to: string };
-
-const navItems: NavItem[] = [
-  { label: "Link 1", to: "/link-1" },
-  { label: "Link 2", to: "/link-2" },
-  { label: "Link 3", to: "/link-3" },
-];
+import { navItems } from "@/config/nav-items.ts";
 
 const navbar = tv({
   slots: {
@@ -27,7 +20,7 @@ const navbar = tv({
   },
   variants: {
     placement: {
-      brand: { link: "font-semibold" },
+      brand: { link: "font-heading font-semibold text-headline" },
       menu: { link: "block px-2 py-3 text-base" },
     },
   },
@@ -67,7 +60,7 @@ function Navbar(): JSX.Element {
       <nav aria-label="Main" className={styles.nav()}>
         <div className={styles.bar()}>
           <Link to="/" className={styles.link({ placement: "brand" })}>
-            Ruth W
+            Ruth Westnidge
           </Link>
 
           <div className={styles.navRight()}>

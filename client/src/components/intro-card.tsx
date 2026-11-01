@@ -22,7 +22,8 @@ const introCard = tv({
     role: "text-lg",
     stackHeading: "text-sm font-medium text-muted-foreground",
     groups: "grid gap-3",
-    groupLabel: "text-xs tracking-wide text-muted-foreground uppercase",
+    stackGroup: "grid gap-3",
+    groupLabel: "text-xs tracking-wide text-headline uppercase",
     tags: "flex flex-wrap gap-2",
     tag: "rounded-md bg-secondary px-2 py-1 text-sm text-secondary-foreground",
   },
@@ -46,7 +47,7 @@ function IntroCard({
         <h2 className={styles.stackHeading()}>Stack</h2>
         <dl className={styles.groups()}>
           {stack.map((group) => (
-            <div key={group.label}>
+            <div key={group.label} className={styles.stackGroup()}>
               <dt className={styles.groupLabel()}>{group.label}</dt>
               <dd>
                 <ul className={styles.tags()}>

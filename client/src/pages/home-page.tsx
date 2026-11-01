@@ -8,13 +8,24 @@ import { tv } from "tailwind-variants/lite";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import IntroCard from "@/components/intro-card";
 
-const hero = tv({ base: "grid items-center gap-8 px-4 lg:grid-cols-2" });
+// The Lanyard's column runs from the screen's left edge, to give it room to swing.
+// The card is only as wide as it needs, up to 28rem, and its right edge lines up with
+// the navbar's contents (max-w-5xl + px-4): 50% - 32rem + 1rem from the right.
+const hero = tv({
+  slots: {
+    root: "flex items-center gap-8 px-4 lg:pr-[max(1rem,calc(50%-31rem))] lg:pl-0",
+    lanyardFrame: "relative z-2 h-150 min-w-0 flex-1",
+    intro: "flex-1 lg:max-w-md lg:flex-none",
+  },
+});
+const heroStyles = hero();
 
-const lanyardFrame = tv({ base: "h-150 w-full" });
+const section = tv({ base: "mx-auto max-w-5xl px-4" });
+
 const Lanyard = lazy(() => import("@/components/lanyard"));
 
 // TEMP: placeholder content to test page scrolling. Remove.
-const placeholder = tv({ base: "mx-auto max-w-prose space-y-4 px-4 py-8" });
+const placeholder = tv({ base: "space-y-4 py-8" });
 const loremIpsum =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
 
@@ -36,7 +47,7 @@ function ProjectList(): JSX.Element {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <ul>
+    <ul className={section()}>
       {data.map((project) => (
         <li key={project._id}>
           <h2>{project.title}</h2>
@@ -77,21 +88,22 @@ function Hero(): JSX.Element {
 
   // The Lanyard doesn't wait for the API, so its caption is set here.
   return (
-    <section className={hero()}>
+    <section className={heroStyles.root()}>
       {isDesktop && (
-        <div className={lanyardFrame()}>
+        <div className={heroStyles.lanyardFrame()}>
           <ErrorBoundary fallback={<div />}>
             <Suspense fallback={null}>
               <Lanyard
                 frontImage="lanyard_image.webp"
                 name="Ruth Westnidge"
                 role="Software Developer"
+                anchor="right"
               />
             </Suspense>
           </ErrorBoundary>
         </div>
       )}
-      {intro}
+      <div className={heroStyles.intro()}>{intro}</div>
     </section>
   );
 }
@@ -101,7 +113,7 @@ function HomePage(): JSX.Element {
     <>
       <Hero />
       <ProjectList />
-      <div className={placeholder()}>
+      <div className={section({ class: placeholder() })}>
         {Array.from({ length: 12 }, (_, i) => (
           <p key={i}>{loremIpsum}</p>
         ))}
