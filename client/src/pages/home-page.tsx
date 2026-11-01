@@ -54,6 +54,7 @@ function HomePage(): JSX.Element {
             <Suspense fallback={null}>
               <Lanyard
                 frontImage="lanyard_image.webp"
+                anchor="left"
                 name="Ruth Westnidge"
                 role="Software Developer"
               />
