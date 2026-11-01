@@ -8,6 +8,8 @@ const app: Express = express();
 
 app.use(helmet());
 
+// TEMP: debug CORS on Railway. Remove once fixed.
+console.log(`CORS origin: ${process.env.CLIENT_ORIGIN ?? "(unset, using localhost)"}`);
 app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173" }));
 const port = Number(process.env.PORT) || 3000;
 
