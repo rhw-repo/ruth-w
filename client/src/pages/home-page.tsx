@@ -52,7 +52,11 @@ function HomePage(): JSX.Element {
         <div className={lanyardFrame()}>
           <ErrorBoundary fallback={<div />}>
             <Suspense fallback={null}>
-              <Lanyard frontImage="lanyard_image.webp" />
+              <Lanyard
+                frontImage="lanyard_image.webp"
+                name="Ruth Westnidge"
+                role="Software Developer"
+              />
             </Suspense>
           </ErrorBoundary>
         </div>

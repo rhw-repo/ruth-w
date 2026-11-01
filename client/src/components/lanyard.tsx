@@ -30,6 +30,10 @@ export type LanyardProps = {
   backImage?: string;
   imageFit?: ImageFit;
   cardColor?: string;
+  name?: string;
+  role?: string;
+  captionColor?: string;
+  captionTextColor?: string;
   orientation?: Orientation;
   finish?: Finish;
   cornerRadius?: number;
@@ -55,6 +59,10 @@ type Settings = {
   backImage: string | undefined;
   imageFit: ImageFit;
   cardColor: string;
+  name: string | undefined;
+  role: string | undefined;
+  captionColor: string;
+  captionTextColor: string;
   orientation: Orientation;
   finish: Finish;
   cornerRadius: number;
@@ -71,6 +79,13 @@ type Settings = {
   breeze: number;
   interactive: boolean;
   intro: boolean;
+};
+
+type Caption = {
+  name: string | undefined;
+  role: string | undefined;
+  background: string;
+  text: string;
 };
 
 type Images = {
@@ -192,6 +207,7 @@ const RING_TUBE = 0.0135;
 const EYELET_RADIUS = 0.036;
 const CLAMP_BODY = 0.15;
 const FACE_WIDTH = 1024;
+const CAPTION_BAND = 0.1;
 
 const FINISHES: Record<Finish, FinishLook> = {
   glossy: {
@@ -695,17 +711,59 @@ const drawFitted = (
   ctx.drawImage(image, (width - w) / 2, (height - h) / 2, w, h);
 };
 
+// Canvas fonts need px; these are texture pixels scaled from the face width.
+const paintCaption = (
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  caption: Caption,
+) => {
+  const { name, role } = caption;
+  if (!name && !role) return;
+  const band = height * CAPTION_BAND;
+  const pad = width * 0.08;
+  const maxWidth = width - pad * 2;
+  const parts: [string, number][] = [];
+  if (name) parts.push([name, 600]);
+  if (role) parts.push([name ? `  ·  ${role}` : role, 400]);
+  const font = (weight: number, size: number) =>
+    `${String(weight)} ${String(size)}px system-ui, sans-serif`;
+  const measure = (size: number) =>
+    parts.reduce((total, [text, weight]) => {
+      ctx.font = font(weight, size);
+      return total + ctx.measureText(text).width;
+    }, 0);
+  let size = width * 0.055;
+  const total = measure(size);
+  if (total > maxWidth) size *= maxWidth / total;
+  ctx.fillStyle = caption.background;
+  ctx.fillRect(0, height - band, width, band);
+  ctx.fillStyle = caption.text;
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  let x = pad;
+  for (const [text, weight] of parts) {
+    ctx.font = font(weight, size);
+    ctx.fillText(text, x, height - band / 2);
+    x += ctx.measureText(text).width;
+  }
+};
+
 const paintFace = (
   canvas: HTMLCanvasElement,
   image: HTMLImageElement | null,
   color: Rgb,
   fit: ImageFit,
+  caption: Caption,
 ) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
   ctx.fillStyle = toCss(color);
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  if (image) drawFitted(ctx, image, canvas.width, canvas.height, fit);
+  const captioned = Boolean(caption.name) || Boolean(caption.role);
+  const area = canvas.height * (captioned ? 1 - CAPTION_BAND : 1);
+  if (image) drawFitted(ctx, image, canvas.width, area, fit);
+  paintCaption(ctx, canvas.width, canvas.height, caption);
 };
 
 const paintStrap = (
@@ -1052,6 +1110,10 @@ const Lanyard = ({
   backImage,
   imageFit = "cover",
   cardColor = "#ffffff",
+  name,
+  role,
+  captionColor = "#7E3421",
+  captionTextColor = "oklch(98.5% 0 0)",
   orientation = "portrait",
   finish = "glossy",
   cornerRadius = 0.3,
@@ -1076,6 +1138,10 @@ const Lanyard = ({
     backImage,
     imageFit: imageFit === "contain" ? "contain" : "cover",
     cardColor,
+    name,
+    role,
+    captionColor,
+    captionTextColor,
     orientation: orientation === "landscape" ? "landscape" : "portrait",
     finish,
     cornerRadius,
@@ -1268,8 +1334,20 @@ const Lanyard = ({
         frontTexture.dispose();
         backTexture.dispose();
       }
-      paintFace(frontCanvas, images.front, color, s.imageFit);
-      paintFace(backCanvas, images.back ?? images.front, color, s.imageFit);
+      const caption: Caption = {
+        name: s.name,
+        role: s.role,
+        background: s.captionColor,
+        text: s.captionTextColor,
+      };
+      paintFace(frontCanvas, images.front, color, s.imageFit, caption);
+      paintFace(
+        backCanvas,
+        images.back ?? images.front,
+        color,
+        s.imageFit,
+        caption,
+      );
       frontTexture.needsUpdate = true;
       backTexture.needsUpdate = true;
       start();
@@ -1374,7 +1452,7 @@ const Lanyard = ({
           repaintStrap();
         });
       }
-      const faceKey = `${layoutKey}|${s.cardColor}|${s.imageFit}`;
+      const faceKey = `${layoutKey}|${s.cardColor}|${s.imageFit}|${s.name ?? ""}|${s.role ?? ""}|${s.captionColor}|${s.captionTextColor}`;
       if (faceKey !== applied.faceKey) paintFaces();
       if (s.strapColor !== applied.strapColor) repaintStrap();
 
