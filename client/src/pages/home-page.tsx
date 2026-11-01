@@ -2,10 +2,14 @@ import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "@sentry/react";
 import { useQuery } from "@tanstack/react-query";
 import type { Project } from "@/types/project.ts";
+import type { Profile } from "@/types/profile.ts";
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
 import { useMediaQuery } from "@/hooks/use-media-query";
-// TEMP: trying out the Lanyard. Remove or move once decided.
+import IntroCard from "@/components/intro-card";
+
+const hero = tv({ base: "grid items-center gap-8 px-4 lg:grid-cols-2" });
+
 const lanyardFrame = tv({ base: "h-150 w-full" });
 const Lanyard = lazy(() => import("@/components/lanyard"));
 
@@ -43,18 +47,43 @@ function ProjectList(): JSX.Element {
   );
 }
 
-function HomePage(): JSX.Element {
-  const isDesktop = useMediaQuery("(min-width: 64rem)");
+async function fetchProfile(): Promise<Profile> {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/profile`);
+  if (!res.ok) {
+    throw new Error(`Request failed: ${String(res.status)}`);
+  }
+  return (await res.json()) as Profile;
+}
 
+function Hero(): JSX.Element {
+  const isDesktop = useMediaQuery("(min-width: 64rem)");
+  const { data: profile, error } = useQuery({
+    queryKey: ["profile"],
+    queryFn: fetchProfile,
+  });
+
+  let intro: JSX.Element | null = null;
+  if (profile) {
+    intro = (
+      <IntroCard
+        name={profile.name}
+        role={profile.role}
+        stack={profile.stack}
+      />
+    );
+  } else if (error) {
+    intro = <p>Couldn't load the profile.</p>;
+  }
+
+  // The Lanyard doesn't wait for the API, so its caption is set here.
   return (
-    <>
+    <section className={hero()}>
       {isDesktop && (
         <div className={lanyardFrame()}>
           <ErrorBoundary fallback={<div />}>
             <Suspense fallback={null}>
               <Lanyard
                 frontImage="lanyard_image.webp"
-                anchor="left"
                 name="Ruth Westnidge"
                 role="Software Developer"
               />
@@ -62,6 +91,15 @@ function HomePage(): JSX.Element {
           </ErrorBoundary>
         </div>
       )}
+      {intro}
+    </section>
+  );
+}
+
+function HomePage(): JSX.Element {
+  return (
+    <>
+      <Hero />
       <ProjectList />
       <div className={placeholder()}>
         {Array.from({ length: 12 }, (_, i) => (
