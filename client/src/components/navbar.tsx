@@ -7,7 +7,7 @@ import { navItems } from "@/config/nav-items.ts";
 const navbar = tv({
   slots: {
     header:
-      "sticky top-0 z-50 border-b border-border bg-nav text-nav-foreground",
+      "sticky top-0 z-50 border-b border-nav-edge bg-nav text-nav-foreground",
     nav: "mx-auto max-w-5xl px-4",
     bar: "flex h-16 items-center justify-between",
     navRight: "flex items-center gap-4",

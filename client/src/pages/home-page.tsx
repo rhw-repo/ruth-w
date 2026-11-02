@@ -100,6 +100,7 @@ function Hero(): JSX.Element {
                 captionColor="var(--badge)"
                 captionTextColor="var(--badge-foreground)"
                 anchor="right"
+                strapColor="#8a3b25"
               />
             </Suspense>
           </ErrorBoundary>
