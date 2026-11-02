@@ -7,6 +7,7 @@ import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import IntroCard from "@/components/intro-card";
+import ProjectCard from "@/components/project-card";
 
 // The Lanyard's column runs from the screen's left edge, to give it room to swing.
 // The card is only as wide as it needs, up to 28rem, and its right edge lines up with
@@ -21,6 +22,28 @@ const hero = tv({
 const heroStyles = hero();
 
 const section = tv({ base: "mx-auto max-w-5xl px-4" });
+
+const projects = tv({
+  slots: {
+    root: "mx-auto max-w-5xl px-4 py-12",
+    heading: "mb-6 text-2xl font-semibold tracking-tight text-headline",
+    grid: "grid gap-8 sm:grid-cols-2 lg:grid-cols-3",
+  },
+});
+const projectStyles = projects();
+
+// TEMP: fills the third grid slot until a third project is in the database. Remove.
+const placeholderProject: Project = {
+  _id: "placeholder",
+  title: "Placeholder",
+  summary: "Another project is on the way.",
+  tags: [],
+  featured: false,
+  order: 999,
+  hasPage: false,
+  createdAt: "",
+  updatedAt: "",
+};
 
 const Lanyard = lazy(() => import("@/components/lanyard"));
 
@@ -47,14 +70,18 @@ function ProjectList(): JSX.Element {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <ul className={section()}>
-      {data.map((project) => (
-        <li key={project._id}>
-          <h2>{project.title}</h2>
-          <p>{project.summary}</p>
-        </li>
-      ))}
-    </ul>
+    <section aria-labelledby="projects-heading" className={projectStyles.root()}>
+      <h2 id="projects-heading" className={projectStyles.heading()}>
+        Projects
+      </h2>
+      <ul className={projectStyles.grid()}>
+        {[...data, placeholderProject].map((project) => (
+          <li key={project._id}>
+            <ProjectCard project={project} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
