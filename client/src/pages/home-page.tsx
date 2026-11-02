@@ -96,6 +96,8 @@ function Hero(): JSX.Element {
               frontImage="lanyard_image.webp"
               name="Ruth Westnidge"
               role="Software Developer"
+              captionColor="var(--badge)"
+              captionTextColor="var(--badge-foreground)"
               anchor={isDesktop ? "right" : "center"}
             />
           </Suspense>

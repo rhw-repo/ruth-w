@@ -25,7 +25,7 @@ const introCard = tv({
     stackGroup: "grid gap-3",
     groupLabel: "text-xs tracking-wide text-headline uppercase",
     tags: "flex flex-wrap gap-2",
-    tag: "rounded-md bg-secondary px-2 py-1 text-sm text-secondary-foreground",
+    tag: "rounded-md bg-badge px-2 py-1 text-sm text-badge-foreground",
   },
 });
 const styles = introCard();

@@ -391,6 +391,13 @@ const luminance = (rgb: Rgb) =>
 const toCss = (rgb: Rgb, alpha = 1) =>
   `rgba(${[...rgb.map((c) => Math.round(c * 255)), alpha].join(", ")})`;
 
+// Canvas can't read CSS variables, so resolve `var(--name)` from the page first.
+const resolveColor = (element: Element, value: string) => {
+  const name = /^var\((--[\w-]+)\)$/.exec(value.trim())?.[1];
+  if (!name) return value;
+  return getComputedStyle(element).getPropertyValue(name).trim() || value;
+};
+
 const seeded = (start: number) => {
   let state = start >>> 0;
   return () => {
@@ -1343,8 +1350,8 @@ const Lanyard = ({
       const caption: Caption = {
         name: s.name,
         role: s.role,
-        background: s.captionColor,
-        text: s.captionTextColor,
+        background: resolveColor(container, s.captionColor),
+        text: resolveColor(container, s.captionTextColor),
       };
       paintFace(frontCanvas, images.front, color, s.imageFit, caption);
       paintFace(
