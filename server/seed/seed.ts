@@ -10,7 +10,7 @@ const projects: ProjectSeed[] = [
   {
     title: "Gold Investing Website",
     summary:
-      "React & TypeScript. Lighthouse scores up by 40+ points. Replacement for legacy WordPress website. Accessible.",
+      "Lighthouse scores up by 40+ points. Replacement for legacy WordPress website. Accessible, responsive.",
     tags: ["React", "TypeScript", "React Router"],
     repoUrl: "https://github.com/rhw-repo/update-react-ui",
     liveUrl: "https://react-typescript-ui-demo-chingu.up.railway.app/",
@@ -22,16 +22,18 @@ const projects: ProjectSeed[] = [
     order: 2,
   },
   {
-    title: "React ECommerce Store With Stripe Payments",
-    summary: "React, TypeScript. Tailwind CSS, Node.js, Express, Mongo.",
+    title: "React ECommerce Store",
+    summary:
+      "Store with redirect to a Stripe-hosted checkout page for payment, then back to an order confirmation. Responsive, accessible, fast page loading.",
     tags: [
       "React",
       "TypeScript",
+      "Stripe",
       "React Router",
       "TanStack Query",
       "Tailwind CSS",
-      "Express.js",
       "Node.js",
+      "Express.js",
       "MongoDB",
       "Zod",
       "CORS",
@@ -45,6 +47,33 @@ const projects: ProjectSeed[] = [
     },
     featured: true,
     order: 1,
+  },
+  {
+    title: "Financial Services CMS",
+    summary:
+      "Authenticated dashboard to replace Excel spreadsheets to track content for a marketing team. Accessible, responsive, fast page loading",
+    tags: [
+      "React",
+      "JavaScript",
+      "React Router",
+      "TanStack Table",
+      "Express.js",
+      "express-session",
+      "express-validator",
+      "Helmet",
+      "CORS",
+      "bcrypt",
+      "Mongoose",
+      "Docker",
+    ],
+    repoUrl: "https://github.com/rhw-repo/react-post-manager",
+    liveUrl: "https://frontend-production-32c1.up.railway.app/login",
+    image: {
+      url: "/financial-services-full-stack.webp",
+      alt: "CMS dashboard: a saved content item showing its title, content, tag, created and updated dates, with a confirmation that edits were saved",
+    },
+    featured: true,
+    order: 3,
   },
 ];
 

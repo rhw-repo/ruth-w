@@ -13,7 +13,7 @@ const projectCard = tv({
     image: "absolute inset-0 size-full object-cover object-top",
     placeholder: "absolute inset-0 bg-card",
     title:
-      "absolute inset-x-0 bottom-0 bg-badge px-5 py-4 text-xl font-semibold text-neutral-50",
+      "absolute inset-x-0 bottom-0 bg-badge px-5 py-3 text-center text-base font-semibold text-neutral-50",
     back: "flex h-full flex-col gap-4 bg-card p-5 text-card-foreground",
     summary: "text-sm",
     tags: "mt-auto flex flex-wrap gap-2",

@@ -21,8 +21,6 @@ const hero = tv({
 });
 const heroStyles = hero();
 
-const section = tv({ base: "mx-auto max-w-5xl px-4" });
-
 const projects = tv({
   slots: {
     root: "mx-auto max-w-5xl px-4 py-12",
@@ -32,25 +30,7 @@ const projects = tv({
 });
 const projectStyles = projects();
 
-// TEMP: fills the third grid slot until a third project is in the database. Remove.
-const placeholderProject: Project = {
-  _id: "placeholder",
-  title: "Placeholder",
-  summary: "Another project is on the way.",
-  tags: [],
-  featured: false,
-  order: 999,
-  hasPage: false,
-  createdAt: "",
-  updatedAt: "",
-};
-
 const Lanyard = lazy(() => import("@/components/lanyard"));
-
-// TEMP: placeholder content to test page scrolling. Remove.
-const placeholder = tv({ base: "space-y-4 py-8" });
-const loremIpsum =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
 
 async function fetchProjects(): Promise<Project[]> {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/api/projects`);
@@ -70,12 +50,15 @@ function ProjectList(): JSX.Element {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <section aria-labelledby="projects-heading" className={projectStyles.root()}>
+    <section
+      aria-labelledby="projects-heading"
+      className={projectStyles.root()}
+    >
       <h2 id="projects-heading" className={projectStyles.heading()}>
         Projects
       </h2>
       <ul className={projectStyles.grid()}>
-        {[...data, placeholderProject].map((project) => (
+        {data.map((project) => (
           <li key={project._id}>
             <ProjectCard project={project} />
           </li>
@@ -143,11 +126,6 @@ function HomePage(): JSX.Element {
     <>
       <Hero />
       <ProjectList />
-      <div className={section({ class: placeholder() })}>
-        {Array.from({ length: 12 }, (_, i) => (
-          <p key={i}>{loremIpsum}</p>
-        ))}
-      </div>
     </>
   );
 }
