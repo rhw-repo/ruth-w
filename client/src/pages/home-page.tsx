@@ -13,8 +13,8 @@ import IntroCard from "@/components/intro-card";
 // the navbar's contents (max-w-5xl + px-4): 50% - 32rem + 1rem from the right.
 const hero = tv({
   slots: {
-    root: "flex flex-col gap-8 px-4 lg:flex-row lg:items-center lg:pr-[max(1rem,calc(50%-31rem))] lg:pl-0",
-    lanyardFrame: "relative z-2 h-100 w-full min-w-0 lg:h-150 lg:w-auto lg:flex-1",
+    root: "flex items-center gap-8 px-4 lg:pr-[max(1rem,calc(50%-31rem))] lg:pl-0",
+    lanyardFrame: "relative z-2 h-150 min-w-0 flex-1",
     intro: "flex-1 lg:max-w-md lg:flex-none lg:self-start lg:pt-16",
   },
 });
@@ -89,20 +89,22 @@ function Hero(): JSX.Element {
   // The Lanyard doesn't wait for the API, so its caption is set here.
   return (
     <section className={heroStyles.root()}>
-      <div className={heroStyles.lanyardFrame()}>
-        <ErrorBoundary fallback={<div />}>
-          <Suspense fallback={null}>
-            <Lanyard
-              frontImage="lanyard_image.webp"
-              name="Ruth Westnidge"
-              role="Software Developer"
-              captionColor="var(--badge)"
-              captionTextColor="var(--badge-foreground)"
-              anchor={isDesktop ? "right" : "center"}
-            />
-          </Suspense>
-        </ErrorBoundary>
-      </div>
+      {isDesktop && (
+        <div className={heroStyles.lanyardFrame()}>
+          <ErrorBoundary fallback={<div />}>
+            <Suspense fallback={null}>
+              <Lanyard
+                frontImage="lanyard_image.webp"
+                name="Ruth Westnidge"
+                role="Software Developer"
+                captionColor="var(--badge)"
+                captionTextColor="var(--badge-foreground)"
+                anchor="right"
+              />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+      )}
       <div className={heroStyles.intro()}>{intro}</div>
     </section>
   );
