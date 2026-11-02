@@ -1,4 +1,4 @@
-export type ProjectImage = {
+type ProjectImage = {
   url: string;
   alt: string;
 };
