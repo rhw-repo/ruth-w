@@ -9,11 +9,12 @@ type ProjectCardProps = {
 
 const projectCard = tv({
   slots: {
-    root: "h-88",
+    root: "flex flex-col gap-3",
+    card: "h-88",
     image: "absolute inset-0 size-full object-cover object-top",
     placeholder: "absolute inset-0 bg-card",
     title:
-      "absolute inset-x-0 bottom-0 bg-badge px-5 py-3 text-center text-base font-semibold text-neutral-50",
+      "text-center text-sm font-semibold tracking-wide text-headline uppercase",
     back: "flex h-full flex-col gap-4 bg-card p-5 text-card-foreground",
     summary: "text-sm",
     tags: "mt-auto flex flex-wrap gap-2",
@@ -24,12 +25,12 @@ const styles = projectCard();
 
 function ProjectCard({ project }: Readonly<ProjectCardProps>): JSX.Element {
   return (
-    <FlipCard
-      className={styles.root()}
-      label={`Flip card: ${project.title}`}
-      front={
-        <>
-          {project.image ? (
+    <div className={styles.root()}>
+      <FlipCard
+        className={styles.card()}
+        label={`Flip card: ${project.title}`}
+        front={
+          project.image ? (
             <img
               className={styles.image()}
               src={project.image.url}
@@ -39,23 +40,23 @@ function ProjectCard({ project }: Readonly<ProjectCardProps>): JSX.Element {
             />
           ) : (
             <div className={styles.placeholder()} />
-          )}
-          <h3 className={styles.title()}>{project.title}</h3>
-        </>
-      }
-      back={
-        <div className={styles.back()}>
-          <p className={styles.summary()}>{project.summary}</p>
-          <ul className={styles.tags()}>
-            {project.tags.map((tag) => (
-              <li key={tag} className={styles.tag()}>
-                {tag}
-              </li>
-            ))}
-          </ul>
-        </div>
-      }
-    />
+          )
+        }
+        back={
+          <div className={styles.back()}>
+            <p className={styles.summary()}>{project.summary}</p>
+            <ul className={styles.tags()}>
+              {project.tags.map((tag) => (
+                <li key={tag} className={styles.tag()}>
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </div>
+        }
+      />
+      <h3 className={styles.title()}>{project.title}</h3>
+    </div>
   );
 }
 
