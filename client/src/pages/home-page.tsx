@@ -26,7 +26,7 @@ const section = tv({ base: "mx-auto max-w-5xl px-4" });
 const projects = tv({
   slots: {
     root: "mx-auto max-w-5xl px-4 py-12",
-    heading: "mb-6 text-2xl font-semibold tracking-tight text-headline",
+    heading: "mb-6 text-xs tracking-wide text-headline uppercase",
     grid: "grid gap-8 sm:grid-cols-2 lg:grid-cols-3",
   },
 });
