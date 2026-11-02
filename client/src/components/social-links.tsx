@@ -7,7 +7,7 @@ import { socialLinks } from "@/config/social-links.ts";
 const socialLinksStyles = tv({
   slots: {
     list: "flex items-center gap-2",
-    link: "inline-flex rounded-md p-[calc(var(--icon-size)*0.25)] transition-colors hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none",
+    link: "inline-flex rounded-md p-[calc(var(--icon-size)*0.25)] transition-colors hover:text-headline focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none",
     icon: "size-(--icon-size)",
     label: "sr-only",
   },

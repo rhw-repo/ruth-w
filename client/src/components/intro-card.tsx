@@ -18,9 +18,8 @@ type IntroCardProps = {
 const introCard = tv({
   slots: {
     root: "bg-transparent shadow-none ring-0",
-    name:"text-3xl font-semibold tracking-tight text-headline",
+    name:"text-3xl font-semibold tracking-tight text-headline sm:text-4xl lg:text-5xl",
     role: "text-lg",
-    stackHeading: "text-sm font-medium text-muted-foreground",
     groups: "grid gap-3",
     stackGroup: "grid gap-3",
     groupLabel: "text-xs tracking-wide text-headline uppercase",
@@ -44,7 +43,6 @@ function IntroCard({
         <CardDescription className={styles.role()}>{role}</CardDescription>
       </CardHeader>
       <CardContent>
-        <h2 className={styles.stackHeading()}>Stack</h2>
         <dl className={styles.groups()}>
           {stack.map((group) => (
             <div key={group.label} className={styles.stackGroup()}>

@@ -20,7 +20,7 @@ const navbar = tv({
   },
   variants: {
     placement: {
-      brand: { link: "font-heading font-semibold text-headline" },
+      brand: { link: "font-heading text-2xl font-semibold text-headline" },
       menu: { link: "block px-2 py-3 text-base" },
     },
   },
@@ -28,7 +28,7 @@ const navbar = tv({
     {
       placement: "menu",
       class: {
-        link: "text-muted-foreground hover:text-nav-foreground aria-[current=page]:text-nav-foreground",
+        link: "text-muted-foreground hover:text-headline aria-[current=page]:text-nav-foreground",
       },
     },
   ],

@@ -48,7 +48,7 @@ const profile: ProfileSeed = {
   role: "Software Developer",
   stack: [
     { label: "Frontend", items: ["React", "TypeScript"] },
-    { label: "Backend", items: ["Node.js", "Express.js", "MongoDB"] },
+    { label: "Full stack", items: ["Node.js", "Express.js", "MongoDB"] },
     { label: "Tools", items: ["Claude Code", "Docker"] },
   ],
   links: [
