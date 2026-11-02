@@ -14,6 +14,10 @@ const projects: ProjectSeed[] = [
     tags: ["React", "TypeScript", "React Router"],
     repoUrl: "https://github.com/rhw-repo/update-react-ui",
     liveUrl: "https://react-typescript-ui-demo-chingu.up.railway.app/",
+    image: {
+      url: "/gold-investing-thumbnail.webp",
+      alt: "Vorlond homepage: the heading Growth Investing over a lake with forested islands and mountains",
+    },
     featured: true,
     order: 2,
   },
@@ -35,6 +39,10 @@ const projects: ProjectSeed[] = [
     ],
     repoUrl: "https://github.com/rhw-repo/react-store",
     liveUrl: "https://client-production-1a36.up.railway.app/store",
+    image: {
+      url: "/react-store-stripe.webp",
+      alt: "Store checkout: Stripe payment form with card details and a Pay button",
+    },
     featured: true,
     order: 1,
   },

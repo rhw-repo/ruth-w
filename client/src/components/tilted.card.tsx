@@ -1,5 +1,3 @@
-"use client";
-
 import {
   useEffect,
   useRef,
@@ -20,7 +18,7 @@ export type TiltedCardLayerProps = {
 };
 
 export type TiltedCardProps = {
-  imageSrc?: string | undefined;
+  imageSrc?: string;
   altText?: string;
   captionText?: string;
   containerHeight?: number | string;
@@ -82,7 +80,7 @@ type OrientationRequest = { requestPermission?: () => Promise<string> };
 const FLIP_THRESHOLD = 6;
 
 const LAYER_TRANSFORM =
-  "translate3d(calc(var(--tc-px, 0) * var(--tc-depth, 0) * 0.0625rem), calc(var(--tc-py, 0) * var(--tc-depth, 0) * 0.0625rem), 0)";
+  "translate3d(calc(var(--tc-px, 0) * var(--tc-depth, 0) * 1px), calc(var(--tc-py, 0) * var(--tc-depth, 0) * 1px), 0)";
 
 const GLARE_STYLE: CSSProperties = {
   background:
@@ -122,9 +120,8 @@ const parseColor = (value: string): number[] | null => {
   return null;
 };
 
-// Numbers are design pixels, written out as rem (16px = 1rem).
 const toLength = (value: number | string | undefined) =>
-  typeof value === "number" ? `${String(value / 16)}rem` : value;
+  typeof value === "number" ? `${String(value)}px` : value;
 
 const smoother = (t: number) => {
   const x = clamp(t, 0, 1);
@@ -193,10 +190,10 @@ const TiltedCard = ({
   imageSrc,
   altText = "Tilted card image",
   captionText = "",
-  containerHeight = "18.75rem",
+  containerHeight = "300px",
   containerWidth = "100%",
-  imageHeight = "18.75rem",
-  imageWidth = "18.75rem",
+  imageHeight = "300px",
+  imageWidth = "300px",
   scaleOnHover = 1.05,
   rotateAmplitude = 12,
   showTooltip = true,
@@ -430,7 +427,7 @@ const TiltedCard = ({
       const ry = state.ry;
       const radiansX = (rx * Math.PI) / 180;
       const radiansY = (ry * Math.PI) / 180;
-      body.style.transform = `translate3d(0, ${(state.ty / 16).toFixed(4)}rem, 0) rotateX(${rx.toFixed(3)}deg) rotateY(${(ry + state.flip).toFixed(3)}deg) scale(${scale.toFixed(4)})`;
+      body.style.transform = `translate3d(0, ${state.ty.toFixed(2)}px, 0) rotateX(${rx.toFixed(3)}deg) rotateY(${(ry + state.flip).toFixed(3)}deg) scale(${scale.toFixed(4)})`;
       body.style.opacity = opacity < 1 ? smoother(opacity).toFixed(3) : "";
       body.style.setProperty(
         "--tc-px",
@@ -467,7 +464,7 @@ const TiltedCard = ({
           12 + 16 * state.lift + Math.sin(radiansX) * 18 - state.ty * 0.6;
         const turn = Math.abs(Math.cos((state.flip * Math.PI) / 180));
         const spread = scale * (0.86 + 0.04 * state.lift);
-        shade.style.transform = `translate3d(${(offsetX / 16).toFixed(4)}rem, ${(offsetY / 16).toFixed(4)}rem, 0) scale(${(spread * (0.2 + 0.8 * turn)).toFixed(4)}, ${spread.toFixed(4)})`;
+        shade.style.transform = `translate3d(${offsetX.toFixed(2)}px, ${offsetY.toFixed(2)}px, 0) scale(${(spread * (0.2 + 0.8 * turn)).toFixed(4)}, ${spread.toFixed(4)})`;
         shade.style.opacity = (strength * (0.6 + 0.4 * state.lift)).toFixed(3);
       }
 
@@ -493,7 +490,6 @@ const TiltedCard = ({
             0.62,
             dt,
           ) || busy;
-        // Stays in px: tx/tyy come from pointer coordinates, which are always px.
         caption.style.transform = `translate3d(${state.tx.toFixed(1)}px, ${state.tyy.toFixed(1)}px, 0) rotate(${state.tip.toFixed(2)}deg)`;
         caption.style.opacity = Math.max(0, state.shown).toFixed(3);
       }
@@ -731,8 +727,6 @@ const TiltedCard = ({
 
   const corner = toLength(radius);
   const glareRgb = (parseColor(glareColor) ?? [255, 255, 255]).join(", ");
-  const flipLabel = captionText ? `Flip card: ${captionText}` : "Flip card";
-  const buttonLabel = flippable ? flipLabel : captionText || altText;
   const bleed =
     Math.ceil(
       Math.sin((clamp(rotateAmplitude, 0, 60) * Math.PI) / 180) *
@@ -755,7 +749,7 @@ const TiltedCard = ({
     >
       <div
         ref={shadowRef}
-        className="pointer-events-none absolute inset-0 m-auto max-h-full max-w-full bg-(--tc-shadow-color,rgba(0,0,0,0.55)) opacity-0 blur-[1.25rem] will-change-[transform,opacity]"
+        className="pointer-events-none absolute inset-0 m-auto max-h-full max-w-full bg-(--tc-shadow-color,rgba(0,0,0,0.55)) opacity-0 blur-[20px] will-change-[transform,opacity]"
         aria-hidden="true"
         style={{
           width: toLength(imageWidth),
@@ -786,10 +780,10 @@ const TiltedCard = ({
                 {
                   "--tc-depth": -24,
                   transform: LAYER_TRANSFORM,
-                  top: `-${String(bleed / 16)}rem`,
-                  left: `-${String(bleed / 16)}rem`,
-                  width: `calc(100% + ${String(bleed / 8)}rem)`,
-                  height: `calc(100% + ${String(bleed / 8)}rem)`,
+                  top: `-${String(bleed)}px`,
+                  left: `-${String(bleed)}px`,
+                  width: `calc(100% + ${String(bleed * 2)}px)`,
+                  height: `calc(100% + ${String(bleed * 2)}px)`,
                 } as CSSProperties
               }
             />
@@ -801,11 +795,11 @@ const TiltedCard = ({
             aria-hidden="true"
           />
           <span
-            className="tilted-card__rim pointer-events-none absolute inset-0 z-6 rounded-[inherit] shadow-[inset_0_0_0_0.0625rem_var(--tc-rim-color,rgba(255,255,255,0.08)),inset_0_0.0625rem_0_var(--tc-rim-light,rgba(255,255,255,0.12))] group-has-focus-visible:shadow-[inset_0_0_0_0.125rem_rgba(255,255,255,0.7),inset_0_0_0_0.1875rem_rgba(0,0,0,0.35)]"
+            className="tilted-card__rim pointer-events-none absolute inset-0 z-6 rounded-[inherit] shadow-[inset_0_0_0_1px_var(--tc-rim-color,rgba(255,255,255,0.08)),inset_0_1px_0_var(--tc-rim-light,rgba(255,255,255,0.12))] group-has-focus-visible:shadow-[inset_0_0_0_2px_rgba(255,255,255,0.7),inset_0_0_0_3px_rgba(0,0,0,0.35)]"
             aria-hidden="true"
           />
           <span
-            className="pointer-events-none absolute inset-0 z-7 box-border rounded-[inherit] p-[0.0625rem]"
+            className="pointer-events-none absolute inset-0 z-7 box-border rounded-[inherit] p-px"
             style={EDGE_STYLE}
             aria-hidden="true"
           />
@@ -822,11 +816,11 @@ const TiltedCard = ({
               aria-hidden="true"
             />
             <span
-              className="tilted-card__rim pointer-events-none absolute inset-0 z-6 rounded-[inherit] shadow-[inset_0_0_0_0.0625rem_var(--tc-rim-color,rgba(255,255,255,0.08)),inset_0_0.0625rem_0_var(--tc-rim-light,rgba(255,255,255,0.12))] group-has-focus-visible:shadow-[inset_0_0_0_0.125rem_rgba(255,255,255,0.7),inset_0_0_0_0.1875rem_rgba(0,0,0,0.35)]"
+              className="tilted-card__rim pointer-events-none absolute inset-0 z-6 rounded-[inherit] shadow-[inset_0_0_0_1px_var(--tc-rim-color,rgba(255,255,255,0.08)),inset_0_1px_0_var(--tc-rim-light,rgba(255,255,255,0.12))] group-has-focus-visible:shadow-[inset_0_0_0_2px_rgba(255,255,255,0.7),inset_0_0_0_3px_rgba(0,0,0,0.35)]"
               aria-hidden="true"
             />
             <span
-              className="pointer-events-none absolute inset-0 z-7 box-border rounded-[inherit] p-[0.0625rem]"
+              className="pointer-events-none absolute inset-0 z-7 box-border rounded-[inherit] p-px"
               style={EDGE_STYLE}
               aria-hidden="true"
             />
@@ -835,7 +829,7 @@ const TiltedCard = ({
         {displayOverlayContent && overlayContent && (
           <div
             className="absolute inset-0 z-2 [-webkit-backface-visibility:hidden] backface-hidden"
-            style={{ transform: `translateZ(${String(overlayDepth / 16)}rem)` }}
+            style={{ transform: `translateZ(${String(overlayDepth)}px)` }}
           >
             {overlayContent}
           </div>
@@ -847,14 +841,14 @@ const TiltedCard = ({
           type="button"
           className="absolute inset-0 z-10 cursor-pointer outline-none"
           aria-pressed={flippable ? isFlipped : undefined}
-          aria-label={buttonLabel}
+          aria-label={captionText || altText}
           onClick={activate}
         />
       )}
       {showTooltip && captionText && (
         <figcaption
           ref={captionRef}
-          className="pointer-events-none absolute left-0 top-0 z-3 ml-3.5 mt-4 whitespace-nowrap rounded-[0.4375rem] bg-white px-2.25 py-1.25 text-xs font-medium leading-4 text-[#18181b] opacity-0 shadow-[0_0_0_0.0625rem_rgba(24,24,27,0.08),0_0.5rem_1.125rem_-0.5rem_rgba(0,0,0,0.45)] origin-top-left will-change-[transform,opacity]"
+          className="pointer-events-none absolute left-0 top-0 z-3 ml-3.5 mt-4 whitespace-nowrap rounded-[7px] bg-white px-2.25 py-1.25 text-[12px] font-medium leading-4 text-[#18181b] opacity-0 shadow-[0_0_0_1px_rgba(24,24,27,0.08),0_8px_18px_-8px_rgba(0,0,0,0.45)] origin-top-left will-change-[transform,opacity]"
         >
           {captionText}
         </figcaption>

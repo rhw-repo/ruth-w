@@ -1,6 +1,6 @@
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
-import TiltedCard, { TiltedCardLayer } from "@/components/tilted-card";
+import FlipCard from "@/components/flip-card";
 import type { Project } from "@/types/project.ts";
 
 type ProjectCardProps = {
@@ -9,11 +9,12 @@ type ProjectCardProps = {
 
 const projectCard = tv({
   slots: {
+    root: "h-88",
+    image: "absolute inset-0 size-full object-cover",
     placeholder: "absolute inset-0 bg-card",
     scrim:
       "absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent",
-    titleLayer: "flex items-end p-5",
-    title: "text-xl font-semibold text-white",
+    title: "absolute inset-x-0 bottom-0 p-5 text-xl font-semibold text-white",
     back: "flex h-full flex-col gap-4 bg-card p-5 text-card-foreground",
     summary: "text-sm",
     tags: "mt-auto flex flex-wrap gap-2",
@@ -22,20 +23,29 @@ const projectCard = tv({
 });
 const styles = projectCard();
 
-const CARD_HEIGHT = "22rem";
-
 function ProjectCard({ project }: Readonly<ProjectCardProps>): JSX.Element {
   return (
-    <TiltedCard
-      imageSrc={project.image?.url}
-      altText={project.image?.alt ?? ""}
-      captionText={project.title}
-      showTooltip={false}
-      containerWidth="100%"
-      containerHeight={CARD_HEIGHT}
-      imageWidth="100%"
-      imageHeight={CARD_HEIGHT}
-      backContent={
+    <FlipCard
+      className={styles.root()}
+      label={`Flip card: ${project.title}`}
+      front={
+        <>
+          {project.image ? (
+            <img
+              className={styles.image()}
+              src={project.image.url}
+              alt={project.image.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div className={styles.placeholder()} />
+          )}
+          <div className={styles.scrim()} />
+          <h3 className={styles.title()}>{project.title}</h3>
+        </>
+      }
+      back={
         <div className={styles.back()}>
           <p className={styles.summary()}>{project.summary}</p>
           <ul className={styles.tags()}>
@@ -47,13 +57,7 @@ function ProjectCard({ project }: Readonly<ProjectCardProps>): JSX.Element {
           </ul>
         </div>
       }
-    >
-      {!project.image && <div className={styles.placeholder()} />}
-      <div className={styles.scrim()} />
-      <TiltedCardLayer depth={30} className={styles.titleLayer()}>
-        <h3 className={styles.title()}>{project.title}</h3>
-      </TiltedCardLayer>
-    </TiltedCard>
+    />
   );
 }
 
