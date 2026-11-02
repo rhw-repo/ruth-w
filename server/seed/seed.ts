@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { connectToDatabase } from "../db.ts";
 import { ProjectModel, type Project } from "../models/project.ts";
+import { ProfileModel, type Profile } from "../models/profile.ts";
 
 type ProjectSeed = Pick<Project, "title" | "summary"> &
   Partial<Omit<Project, "title" | "summary" | "createdAt" | "updatedAt">>;
@@ -39,6 +40,32 @@ const projects: ProjectSeed[] = [
   },
 ];
 
+type ProfileSeed = Omit<Profile, "_id" | "createdAt" | "updatedAt">;
+
+// Add buymeacoffee and cv links here once they exist.
+const profile: ProfileSeed = {
+  name: "Ruth Westnidge",
+  role: "Software Developer",
+  stack: [
+    { label: "Frontend", items: ["React", "TypeScript"] },
+    { label: "Backend", items: ["Node.js", "Express.js", "MongoDB"] },
+    { label: "Tools", items: ["Claude Code", "Docker"] },
+  ],
+  links: [
+    { kind: "github", href: "https://github.com/rhw-repo", label: "GitHub" },
+    {
+      kind: "linkedin",
+      href: "https://www.linkedin.com/in/ruth-westnidge/",
+      label: "LinkedIn",
+    },
+    {
+      kind: "email",
+      href: "mailto:ruthuptoeleventech@gmail.com",
+      label: "Email",
+    },
+  ],
+};
+
 // Matches on title, so running the script again updates the project instead of duplicating it.
 async function upsertProject(data: ProjectSeed): Promise<void> {
   const existing = await ProjectModel.findOne({ title: data.title });
@@ -56,9 +83,23 @@ async function seedProjects(): Promise<void> {
   await Promise.all(projects.map(upsertProject));
 }
 
+// There's only one profile, so this updates it if it exists.
+async function upsertProfile(): Promise<void> {
+  const existing = await ProfileModel.findOne();
+  if (existing) {
+    existing.set(profile);
+    await existing.save();
+    console.log("Updated: profile");
+  } else {
+    await ProfileModel.create(profile);
+    console.log("Created: profile");
+  }
+}
+
 try {
   await connectToDatabase();
   await seedProjects();
+  await upsertProfile();
 } finally {
   await mongoose.disconnect();
 }

@@ -3,6 +3,7 @@ import helmet from "helmet";
 import cors from "cors";
 import { connectToDatabase } from "./db.ts";
 import { ProjectModel } from "./models/project.ts";
+import { ProfileModel } from "./models/profile.ts";
 
 const app: Express = express();
 
@@ -26,6 +27,17 @@ app.use("/api", (req, res, next) => {
 app.get("/api/projects", async (_req: Request, res: Response) => {
   const projects = await ProjectModel.find().sort({ order: 1 }).lean();
   res.json(projects);
+});
+
+app.get("/api/profile", async (_req: Request, res: Response) => {
+  const profile = await ProfileModel.findOne()
+    .select("name role stack links")
+    .lean();
+  if (!profile) {
+    res.sendStatus(404);
+    return;
+  }
+  res.json(profile);
 });
 
 await connectToDatabase();
