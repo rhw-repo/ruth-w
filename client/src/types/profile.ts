@@ -3,7 +3,7 @@ export type StackGroup = {
   items: string[];
 };
 
-type ProfileLink = {
+export type ProfileLink = {
   kind: "linkedin" | "github" | "email" | "buymeacoffee" | "cv";
   href: string;
   label: string;

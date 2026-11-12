@@ -16,7 +16,8 @@ import ContactSection from "@/components/contact-section";
 // The intro card comes first in the DOM so the h1 precedes About's h2.
 const hero = tv({
   slots: {
-    container: "mx-auto grid max-w-5xl gap-8 px-4 py-12 lg:grid-cols-2",
+    container:
+      "mx-auto grid max-w-5xl gap-8 px-4 py-4 md:py-12 lg:py-12 lg:grid-cols-2",
     about: "lg:col-start-1 lg:row-start-1",
     intro: "lg:col-start-2 lg:row-start-1 lg:justify-self-end",
     lanyardFrame: "relative z-2 h-80",
@@ -118,7 +119,7 @@ function Hero(): JSX.Element {
             </ErrorBoundary>
           </div>
         )}
-        <AboutSection />
+        <AboutSection links={profile?.links ?? []} />
       </div>
     </section>
   );

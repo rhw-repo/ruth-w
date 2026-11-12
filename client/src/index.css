@@ -74,7 +74,7 @@
   --card-foreground: var(--color-zinc-950);
   --popover: var(--color-neutral-50);
   --popover-foreground: var(--color-zinc-950);
-  --primary: var(--color-emerald-700);
+  --primary: var(--headline);
   --primary-foreground: var(--color-neutral-50);
   --secondary: var(--color-zinc-100);
   --secondary-foreground: var(--color-zinc-900);
@@ -103,8 +103,8 @@
   --card-foreground: var(--color-zinc-50);
   --popover: var(--color-zinc-800);
   --popover-foreground: var(--color-zinc-50);
-  --primary: var(--color-emerald-700);
-  --primary-foreground: var(--color-neutral-50);
+  --primary: var(--headline);
+  --primary-foreground: var(--color-zinc-900);
   --secondary: var(--color-zinc-800);
   --secondary-foreground: var(--color-zinc-50);
   --muted: var(--color-zinc-800);

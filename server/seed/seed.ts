@@ -79,7 +79,7 @@ const projects: ProjectSeed[] = [
 
 type ProfileSeed = Omit<Profile, "_id" | "createdAt" | "updatedAt">;
 
-// Add buymeacoffee and cv links here once they exist.
+// Add buymeacoffee once it exists
 const profile: ProfileSeed = {
   name: "Ruth Westnidge",
   role: "Software Developer",
@@ -100,6 +100,7 @@ const profile: ProfileSeed = {
       href: "mailto:ruthuptoeleventech@gmail.com",
       label: "Email",
     },
+    { kind: "cv", href: "/ruth-westnidge-cv.pdf", label: "CV" },
   ],
 };
 
