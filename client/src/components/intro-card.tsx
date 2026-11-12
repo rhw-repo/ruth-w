@@ -7,33 +7,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { StackGroup } from "@/types/profile.ts";
+import { icons, type IconId } from "@/components/icons/icon-registry";
 
 type IntroCardProps = {
   name: string;
   role: string;
-  stack: StackGroup[];
 };
+
+type StackGroup = {
+  id: string;
+  label: string;
+  items: IconId[];
+};
+
+const stackGroups: StackGroup[] = [
+  { id: "frontend", label: "Frontend", items: ["react", "typescript"] },
+  {
+    id: "full-stack",
+    label: "Full stack",
+    items: ["node", "express", "mongodb"],
+  },
+  { id: "tools", label: "Tools", items: ["claude-code", "docker"] },
+];
 
 const introCard = tv({
   slots: {
     root: "bg-transparent shadow-none ring-0",
-    name:"text-3xl font-semibold tracking-tight text-headline sm:text-4xl lg:text-5xl",
+    name: "text-3xl font-semibold tracking-tight text-headline sm:text-4xl lg:text-4xl",
     role: "text-lg",
     groups: "grid gap-3",
     stackGroup: "grid gap-3",
     groupLabel: "text-xs tracking-wide text-headline uppercase",
     tags: "flex flex-wrap gap-2",
-    tag: "rounded-md bg-badge px-2 py-1 text-sm text-badge-foreground",
+    tag: "flex flex-col items-center gap-1 text-sm",
+    icon: "size-8",
   },
 });
 const styles = introCard();
 
-function IntroCard({
-  name,
-  role,
-  stack,
-}: Readonly<IntroCardProps>): JSX.Element {
+function IntroCard({ name, role }: Readonly<IntroCardProps>): JSX.Element {
   return (
     <Card className={styles.root()}>
       <CardHeader>
@@ -44,16 +56,20 @@ function IntroCard({
       </CardHeader>
       <CardContent>
         <dl className={styles.groups()}>
-          {stack.map((group) => (
-            <div key={group.label} className={styles.stackGroup()}>
+          {stackGroups.map((group) => (
+            <div key={group.id} className={styles.stackGroup()}>
               <dt className={styles.groupLabel()}>{group.label}</dt>
               <dd>
                 <ul className={styles.tags()}>
-                  {group.items.map((item) => (
-                    <li key={item} className={styles.tag()}>
-                      {item}
-                    </li>
-                  ))}
+                  {group.items.map((id) => {
+                    const { label, Icon } = icons[id];
+                    return (
+                      <li key={id} className={styles.tag()}>
+                        <Icon className={styles.icon()} />
+                        {label}
+                      </li>
+                    );
+                  })}
                 </ul>
               </dd>
             </div>

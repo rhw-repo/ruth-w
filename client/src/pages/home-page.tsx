@@ -16,9 +16,9 @@ import ContactSection from "@/components/contact-section";
 // the navbar's contents (max-w-5xl + px-4): 50% - 32rem + 1rem from the right.
 const hero = tv({
   slots: {
-    root: "flex items-center gap-8 px-4 lg:pr-[max(1rem,calc(50%-31rem))] lg:pl-0",
+    root: "flex items-center px-4 lg:pr-[max(1rem,calc(50%-31rem))] lg:pl-0",
     lanyardFrame: "relative z-2 h-150 min-w-0 flex-1",
-    intro: "flex-1 lg:max-w-md lg:flex-none lg:self-start lg:pt-16",
+    intro: "flex-1 lg:mr-16 lg:max-w-md lg:flex-none lg:self-start lg:pt-16",
   },
 });
 const heroStyles = hero();
@@ -87,13 +87,7 @@ function Hero(): JSX.Element {
 
   let intro: JSX.Element | null = null;
   if (profile) {
-    intro = (
-      <IntroCard
-        name={profile.name}
-        role={profile.role}
-        stack={profile.stack}
-      />
-    );
+    intro = <IntroCard name={profile.name} role={profile.role} />;
   } else if (error) {
     intro = <p>Couldn't load the profile.</p>;
   }
@@ -111,7 +105,9 @@ function Hero(): JSX.Element {
                 role="Software Developer"
                 captionColor="var(--badge)"
                 captionTextColor="var(--badge-foreground)"
-                anchor="right"
+                anchor="center"
+                size={0.5}
+                strapLength={0.25}
                 strapColor="#8a3b25"
               />
             </Suspense>
