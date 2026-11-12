@@ -8,6 +8,8 @@ import { tv } from "tailwind-variants/lite";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import IntroCard from "@/components/intro-card";
 import ProjectCard from "@/components/project-card";
+import AboutSection from "@/components/about-section";
+import ContactSection from "@/components/contact-section";
 
 // The Lanyard's column runs from the screen's left edge, to give it room to swing.
 // The card is only as wide as it needs, up to 28rem, and its right edge lines up with
@@ -125,7 +127,9 @@ function HomePage(): JSX.Element {
   return (
     <>
       <Hero />
+      <AboutSection />
       <ProjectList />
+      <ContactSection />
     </>
   );
 }
