@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants/lite";
 
 const about = tv({
   slots: {
-    heading: "mb-4 font-heading text-3xl text-headline",
+    heading: "mb-4 mt-4 font-heading text-3xl text-headline",
     body: "mb-6 max-w-prose font-sans leading-relaxed",
     link: "rounded-sm font-medium text-headline underline underline-offset-4 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2",
   },

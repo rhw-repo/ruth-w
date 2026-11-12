@@ -18,7 +18,7 @@ const hero = tv({
   slots: {
     container: "mx-auto grid max-w-5xl gap-8 px-4 py-12 lg:grid-cols-2",
     about: "lg:col-start-1 lg:row-start-1",
-    intro: "lg:col-start-2 lg:row-start-1",
+    intro: "lg:col-start-2 lg:row-start-1 lg:justify-self-end",
     lanyardFrame: "relative z-2 h-80",
   },
 });
@@ -104,6 +104,7 @@ function Hero(): JSX.Element {
               <Suspense fallback={null}>
                 <Lanyard
                   frontImage="lanyard_image.webp"
+                  cardColor="#fafafa"
                   name="Ruth Westnidge"
                   role="Software Developer"
                   captionColor="var(--badge)"

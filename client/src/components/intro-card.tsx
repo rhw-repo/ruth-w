@@ -39,9 +39,10 @@ const introCard = tv({
     role: "text-lg",
     groups: "grid gap-3",
     stackGroup: "grid gap-3",
-    groupLabel: "text-xs tracking-wide text-headline uppercase",
-    tags: "flex flex-wrap gap-2",
-    tag: "flex flex-col items-center gap-1 text-sm",
+    groupLabel: "text-xl mt-8 mb-2 tracking-wide text-headline uppercase",
+    tags: "flex flex-wrap gap-8",
+    tag: "flex flex-col items-center gap-2 text-sm",
+    label: "text-muted-foreground",
     icon: "size-8",
   },
 });
@@ -68,7 +69,7 @@ function IntroCard({ name, role }: Readonly<IntroCardProps>): JSX.Element {
                     return (
                       <li key={id} className={styles.tag()}>
                         <Icon className={styles.icon()} />
-                        {label}
+                        <span className={styles.label()}>{label}</span>
                       </li>
                     );
                   })}
