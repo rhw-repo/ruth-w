@@ -3,7 +3,6 @@ import { tv } from "tailwind-variants/lite";
 
 const about = tv({
   slots: {
-    root: "mx-auto max-w-5xl px-4 py-12",
     heading: "mb-4 font-heading text-3xl text-headline",
     body: "mb-6 max-w-prose font-sans leading-relaxed",
     link: "rounded-sm font-medium text-headline underline underline-offset-4 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2",
@@ -13,7 +12,7 @@ const styles = about();
 
 function AboutSection(): JSX.Element {
   return (
-    <section aria-labelledby="about-heading" className={styles.root()}>
+    <section aria-labelledby="about-heading">
       <h2 id="about-heading" className={styles.heading()}>
         About Me
       </h2>

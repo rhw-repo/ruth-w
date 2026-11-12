@@ -11,14 +11,15 @@ import ProjectCard from "@/components/project-card";
 import AboutSection from "@/components/about-section";
 import ContactSection from "@/components/contact-section";
 
-// The Lanyard's column runs from the screen's left edge, to give it room to swing.
-// The card is only as wide as it needs, up to 28rem, and its right edge lines up with
-// the navbar's contents (max-w-5xl + px-4): 50% - 32rem + 1rem from the right.
+// The container shares the page's max width: the Lanyard (desktop only) above About on
+// the left, the intro card on the right.
+// The intro card comes first in the DOM so the h1 precedes About's h2.
 const hero = tv({
   slots: {
-    root: "flex items-center px-4 lg:pr-[max(1rem,calc(50%-31rem))] lg:pl-0",
-    lanyardFrame: "relative z-2 h-150 min-w-0 flex-1",
-    intro: "flex-1 lg:mr-16 lg:max-w-md lg:flex-none lg:self-start lg:pt-16",
+    container: "mx-auto grid max-w-5xl gap-8 px-4 py-12 lg:grid-cols-2",
+    about: "lg:col-start-1 lg:row-start-1",
+    intro: "lg:col-start-2 lg:row-start-1",
+    lanyardFrame: "relative z-2 h-80",
   },
 });
 const heroStyles = hero();
@@ -94,27 +95,30 @@ function Hero(): JSX.Element {
 
   // The Lanyard doesn't wait for the API, so its caption is set here.
   return (
-    <section className={heroStyles.root()}>
-      {isDesktop && (
-        <div className={heroStyles.lanyardFrame()}>
-          <ErrorBoundary fallback={<div />}>
-            <Suspense fallback={null}>
-              <Lanyard
-                frontImage="lanyard_image.webp"
-                name="Ruth Westnidge"
-                role="Software Developer"
-                captionColor="var(--badge)"
-                captionTextColor="var(--badge-foreground)"
-                anchor="center"
-                size={0.5}
-                strapLength={0.25}
-                strapColor="#8a3b25"
-              />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-      )}
+    <section className={heroStyles.container()}>
       <div className={heroStyles.intro()}>{intro}</div>
+      <div className={heroStyles.about()}>
+        {isDesktop && (
+          <div className={heroStyles.lanyardFrame()}>
+            <ErrorBoundary fallback={<div />}>
+              <Suspense fallback={null}>
+                <Lanyard
+                  frontImage="lanyard_image.webp"
+                  name="Ruth Westnidge"
+                  role="Software Developer"
+                  captionColor="var(--badge)"
+                  captionTextColor="var(--badge-foreground)"
+                  anchor="center"
+                  size={0.75}
+                  strapLength={0.15}
+                  strapColor="#8a3b25"
+                />
+              </Suspense>
+            </ErrorBoundary>
+          </div>
+        )}
+        <AboutSection />
+      </div>
     </section>
   );
 }
@@ -123,7 +127,6 @@ function HomePage(): JSX.Element {
   return (
     <>
       <Hero />
-      <AboutSection />
       <ProjectList />
       <ContactSection />
     </>

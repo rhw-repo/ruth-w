@@ -7,7 +7,7 @@ function ClaudeCodeIcon({ className }: Readonly<IconProps>): JSX.Element {
     <svg
       aria-hidden="true"
       viewBox="0 0 24 24"
-      fill="currentColor"
+      fill="#D97757"
       className={className}
     >
       {/* Simple Icons (CC0) - https://simpleicons.org */}

@@ -33,6 +33,8 @@ const stackGroups: StackGroup[] = [
 const introCard = tv({
   slots: {
     root: "bg-transparent shadow-none ring-0",
+    header: "px-0",
+    content: "px-0",
     name: "text-3xl font-semibold tracking-tight text-headline sm:text-4xl lg:text-4xl",
     role: "text-lg",
     groups: "grid gap-3",
@@ -48,13 +50,13 @@ const styles = introCard();
 function IntroCard({ name, role }: Readonly<IntroCardProps>): JSX.Element {
   return (
     <Card className={styles.root()}>
-      <CardHeader>
+      <CardHeader className={styles.header()}>
         <CardTitle level={1} className={styles.name()}>
           {name}
         </CardTitle>
         <CardDescription className={styles.role()}>{role}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className={styles.content()}>
         <dl className={styles.groups()}>
           {stackGroups.map((group) => (
             <div key={group.id} className={styles.stackGroup()}>
