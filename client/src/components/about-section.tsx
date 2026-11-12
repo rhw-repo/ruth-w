@@ -1,7 +1,6 @@
 import type { JSX } from "react";
 import { tv } from "tailwind-variants/lite";
-import { buttonVariants } from "@/components/ui/button-variants";
-import ExternalLink from "@/components/external-link";
+import SpecularLink from "@/components/specular-link";
 import type { ProfileLink } from "@/types/profile.ts";
 
 type AboutSectionProps = {
@@ -13,20 +12,17 @@ const about = tv({
     heading: "mb-4 mt-4 font-heading text-3xl text-headline",
     body: "mb-6 max-w-prose font-sans leading-relaxed",
     actions: "flex flex-wrap items-center gap-4",
-    link: "rounded-sm font-medium text-headline underline underline-offset-4 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2",
+    link: "rounded-sm text-2xl font-medium text-headline underline underline-offset-4 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2",
   },
 });
 const styles = about();
 
-// Each button shows once its link is in the profile. In development, placeholders
-// stand in until then, so the buttons can be styled; production builds hide them.
+// Download CV shows once the cv link is in the profile. In development, a placeholder
+// stands in until then, so it can be styled; production builds hide it.
 function AboutSection({ links }: Readonly<AboutSectionProps>): JSX.Element {
   const cvHref =
     links.find((link) => link.kind === "cv")?.href ??
     (import.meta.env.DEV ? "/ruth-westnidge-cv.pdf" : undefined);
-  const coffeeHref =
-    links.find((link) => link.kind === "buymeacoffee")?.href ??
-    (import.meta.env.DEV ? "https://buymeacoffee.com" : undefined);
 
   return (
     <section aria-labelledby="about-heading">
@@ -41,25 +37,32 @@ function AboutSection({ links }: Readonly<AboutSectionProps>): JSX.Element {
         velit esse cillum dolore eu fugiat nulla pariatur.
       </p>
       <div className={styles.actions()}>
+        {cvHref && (
+          <SpecularLink
+            href={cvHref}
+            download="Ruth-Westnidge-CV.pdf"
+            size="md"
+            radius={1.125}
+            tint="#2dd4bf"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#2dd4bf"
+            baseColor="#2dd4bf"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
+          >
+            Download CV
+          </SpecularLink>
+        )}
         <a href="#contact" className={styles.link()}>
           Let's Talk
         </a>
-        {cvHref && (
-          <a
-            href={cvHref}
-            download="Ruth-Westnidge-CV.pdf"
-            className={buttonVariants()}>
-            Download CV
-          </a>
-        )}
-        {coffeeHref && (
-          <ExternalLink
-            href={coffeeHref}
-            className={buttonVariants({ variant: "outline" })}
-          >
-            Buy me a coffee
-          </ExternalLink>
-        )}
       </div>
     </section>
   );

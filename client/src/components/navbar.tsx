@@ -2,7 +2,11 @@ import { useEffect, useRef, useState, type JSX } from "react";
 import { Link, NavLink } from "react-router";
 import { tv } from "tailwind-variants/lite";
 import SocialLinks from "@/components/social-links.tsx";
+import ExternalLink from "@/components/external-link";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { navItems } from "@/config/nav-items.ts";
+import { useProfile } from "@/hooks/use-profile";
+import { cn } from "@/lib/utils";
 
 const navbar = tv({
   slots: {
@@ -11,6 +15,8 @@ const navbar = tv({
     nav: "mx-auto max-w-5xl px-4",
     bar: "flex h-16 items-center justify-between",
     navRight: "flex items-center gap-4",
+    // Desktop only; on mobile the link is in the menu instead.
+    coffee: "max-sm:hidden",
     menuButton:
       "inline-flex size-11 items-center justify-center rounded-md focus-visible:outline-2 sm:hidden",
     menuIcon: "size-6",
@@ -39,6 +45,13 @@ const styles = navbar();
 function Navbar(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const { data: profile } = useProfile();
+
+  // Shows once the buymeacoffee link is in the profile. In development, a placeholder
+  // stands in until then, so it can be styled; production builds hide it.
+  const coffeeHref =
+    profile?.links.find((link) => link.kind === "buymeacoffee")?.href ??
+    (import.meta.env.DEV ? "https://buymeacoffee.com" : undefined);
 
   // Escape closes the menu and returns focus to the button
   useEffect(() => {
@@ -64,6 +77,17 @@ function Navbar(): JSX.Element {
           </Link>
 
           <div className={styles.navRight()}>
+            {coffeeHref && (
+              <ExternalLink
+                href={coffeeHref}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  styles.coffee(),
+                )}
+              >
+                Buy me a coffee
+              </ExternalLink>
+            )}
             <SocialLinks />
 
             <button
@@ -111,6 +135,19 @@ function Navbar(): JSX.Element {
                 </NavLink>
               </li>
             ))}
+            {coffeeHref && (
+              <li>
+                <ExternalLink
+                  href={coffeeHref}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                  }}
+                  className={styles.link({ placement: "menu" })}
+                >
+                  Buy me a coffee
+                </ExternalLink>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

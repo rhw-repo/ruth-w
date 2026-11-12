@@ -2,10 +2,10 @@ import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "@sentry/react";
 import { useQuery } from "@tanstack/react-query";
 import type { Project } from "@/types/project.ts";
-import type { Profile } from "@/types/profile.ts";
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useProfile } from "@/hooks/use-profile";
 import IntroCard from "@/components/intro-card";
 import ProjectCard from "@/components/project-card";
 import AboutSection from "@/components/about-section";
@@ -72,20 +72,9 @@ function ProjectList(): JSX.Element {
   );
 }
 
-async function fetchProfile(): Promise<Profile> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/profile`);
-  if (!res.ok) {
-    throw new Error(`Request failed: ${String(res.status)}`);
-  }
-  return (await res.json()) as Profile;
-}
-
 function Hero(): JSX.Element {
   const isDesktop = useMediaQuery("(min-width: 64rem)");
-  const { data: profile, error } = useQuery({
-    queryKey: ["profile"],
-    queryFn: fetchProfile,
-  });
+  const { data: profile, error } = useProfile();
 
   let intro: JSX.Element | null = null;
   if (profile) {
