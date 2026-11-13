@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@/index.css";
 import App from "@/app.tsx";
+import { projectsQuery } from "@/hooks/use-projects";
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
@@ -15,6 +16,17 @@ Sentry.init({
 });
 
 const queryClient = new QueryClient();
+
+// The projects request starts with the HTML (<link rel="preload"> in index.html), so it
+// has usually finished by now. Putting it in the cache before the first render means the
+// project cards are in the first paint, so nothing below them shifts when they arrive.
+// Wait at most 150 ms, so a slow API can't hold up the page.
+// query() throws if the request fails; the error is swallowed here because ProjectList
+// shows its own error state.
+await Promise.race([
+  queryClient.query(projectsQuery).catch(() => undefined),
+  new Promise((resolve) => setTimeout(resolve, 150)),
+]);
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {

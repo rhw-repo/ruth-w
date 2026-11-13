@@ -1,11 +1,8 @@
-import { lazy, Suspense } from "react";
-import { ErrorBoundary } from "@sentry/react";
-import { useQuery } from "@tanstack/react-query";
-import type { Project } from "@/types/project.ts";
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { useProfile } from "@/hooks/use-profile";
+import { useProjects } from "@/hooks/use-projects";
+import LanyardStage from "@/components/lanyard-stage";
 import SkillsSection from "@/components/skills-section";
 import SkillIconRow from "@/components/skill-icon-row";
 import ProjectCard from "@/components/project-card";
@@ -27,8 +24,8 @@ const hero = tv({
       "col-span-full flex flex-col items-center gap-2 max-lg:order-3 md:flex-row md:items-baseline md:justify-center md:gap-6 lg:order-last",
     name: "font-heading text-[10cqi] leading-none font-semibold tracking-tight whitespace-nowrap text-headline md:text-[8cqi]",
     role: "text-xl whitespace-nowrap text-foreground",
-    // TRIAL (2026-11-13): Lanyard on mobile too, to measure performance. The previous
-    // version showed a plain <img> of the photo below lg instead.
+    // The Lanyard shows on every width; LanyardStage reserves its space and loads it once
+    // the page has loaded and the browser is idle (see lanyard-stage.tsx).
     top: "contents lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8",
     lanyardFrame: "relative z-2 h-80 max-lg:order-1",
     // Mobile only: the skill logos under the Lanyard (the navbar shows them from lg).
@@ -47,21 +44,10 @@ const projects = tv({
 });
 const projectStyles = projects();
 
-const Lanyard = lazy(() => import("@/components/lanyard"));
-
-async function fetchProjects(): Promise<Project[]> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/projects`);
-  if (!res.ok) {
-    throw new Error(`Request failed: ${String(res.status)}`);
-  }
-  return (await res.json()) as Project[];
-}
-
+// main.tsx prefetches the projects before the first render, so data is normally
+// already here and "Loading…" only shows if the API is slow.
 function ProjectList(): JSX.Element {
-  const { data, isPending, error } = useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects,
-  });
+  const { data, isPending, error } = useProjects();
 
   if (isPending) return <p>Loading…</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -86,7 +72,6 @@ function ProjectList(): JSX.Element {
 }
 
 function Hero(): JSX.Element {
-  const isDesktop = useMediaQuery("(min-width: 64rem)");
   const { data: profile } = useProfile();
 
   // The Lanyard, name and role don't wait for the API, so they're set here. The name is
@@ -98,28 +83,7 @@ function Hero(): JSX.Element {
         <p className={heroStyles.role()}>Software Developer</p>
       </div>
       <div className={heroStyles.top()}>
-        {/* COMPARISON RUN (2026-11-13): desktop-only again, to measure the mobile
-            Lanyard's cost to TBT. Remove the isDesktop check to restore the trial. */}
-        {isDesktop && (
-          <div className={heroStyles.lanyardFrame()}>
-            <ErrorBoundary fallback={<div />}>
-              <Suspense fallback={null}>
-                <Lanyard
-                  frontImage="/lanyard_image.webp"
-                  cardColor="#fafafa"
-                  name="Ruth Westnidge"
-                  role="Software Developer"
-                  captionColor="var(--badge)"
-                  captionTextColor="var(--badge-foreground)"
-                  anchor="center"
-                  size={0.75}
-                  strapLength={0.15}
-                  strapColor="#8a3b25"
-                />
-              </Suspense>
-            </ErrorBoundary>
-          </div>
-        )}
+        <LanyardStage className={heroStyles.lanyardFrame()} />
         <SkillIconRow className={heroStyles.skills()} />
         <div className={heroStyles.about()}>
           <AboutSection links={profile?.links ?? []} />

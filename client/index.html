@@ -17,6 +17,15 @@
       type="font/woff2"
       crossorigin
     />
+    <!-- Starts the projects request alongside the JavaScript. main.tsx puts the
+         response in the query cache before the first render. The URL must match
+         fetchProjects in src/hooks/use-projects.ts. -->
+    <link
+      rel="preload"
+      href="%VITE_API_URL%/api/projects"
+      as="fetch"
+      crossorigin="anonymous"
+    />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ruth-W</title>
