@@ -12,9 +12,12 @@ const about = tv({
     // Visually hidden: the layout makes it clear this is the intro, but screen reader
     // users navigating by headings still need it to find the section.
     heading: "sr-only",
-    // Centred below lg (mobile and tablet), where the hero is one centred column.
-    body: "mb-6 max-w-prose font-sans leading-relaxed text-balance max-lg:mx-auto max-lg:text-center",
-    actions: "flex flex-wrap items-center gap-4 max-lg:justify-center",
+    // Centred below lg, where the hero is one centred column. With hero-split (phones in
+    // landscape, tablets in portrait; see index.css) About sits beside the Lanyard, so
+    // it's left-aligned like desktop.
+    body: "mb-6 max-w-prose font-sans leading-relaxed text-balance max-lg:mx-auto max-lg:text-center hero-split:mx-0 hero-split:text-left",
+    actions:
+      "flex flex-wrap items-center gap-4 max-lg:justify-center hero-split:justify-start",
     link: "rounded-sm text-2xl font-medium text-headline underline underline-offset-4 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2",
   },
 });

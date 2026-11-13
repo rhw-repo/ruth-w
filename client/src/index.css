@@ -20,6 +20,9 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Hero side by side below lg: phones in landscape, and tablets (md and up) in portrait. */
+@custom-variant hero-split (@media (width < 64rem) and ((orientation: landscape) or (width >= 48rem)));
+
 @theme inline {
   --font-sans: "Schibsted Grotesk", sans-serif;
   --font-heading: "Libre Baskerville", serif;

@@ -19,18 +19,23 @@ import ContactSection from "@/components/contact-section";
 const hero = tv({
   slots: {
     container:
-      "@container mx-auto grid max-w-5xl gap-8 px-4 pt-0 pb-4 md:py-12 lg:py-12",
+      "@container mx-auto grid max-w-5xl gap-8 px-4 pt-0 pb-4 md:pb-12",
     nameRow:
       "col-span-full flex flex-col items-center gap-2 max-lg:order-3 md:flex-row md:items-baseline md:justify-center md:gap-6 lg:order-last",
     name: "font-heading text-[10cqi] leading-none font-semibold tracking-tight whitespace-nowrap text-headline md:text-[8cqi]",
     role: "text-xl whitespace-nowrap text-foreground",
     // The Lanyard shows on every width; LanyardStage reserves its space, lazy-loads it
     // straight away and fades it in (see lanyard-stage.tsx).
-    top: "contents lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8",
-    lanyardFrame: "relative z-2 h-80 max-lg:order-1",
+    // hero-split (index.css: below lg, phones in landscape and tablets in portrait):
+    // Lanyard and logos on the left, About on the right.
+    top: "contents lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8 hero-split:grid hero-split:grid-cols-2 hero-split:items-center hero-split:gap-8",
+    lanyardFrame:
+      "relative z-2 h-80 max-lg:order-1 lg:self-start hero-split:col-start-1 hero-split:row-start-1",
     // Mobile only: the skill logos under the Lanyard (the navbar shows them from lg).
-    skills: "justify-center max-lg:order-2 lg:hidden",
-    about: "max-lg:order-4",
+    skills:
+      "justify-center max-lg:order-2 lg:hidden hero-split:col-start-1 hero-split:row-start-2",
+    about:
+      "max-lg:order-4 hero-split:col-start-2 hero-split:row-span-2 hero-split:row-start-1",
   },
 });
 const heroStyles = hero();
