@@ -20,7 +20,10 @@ function Card({
   );
 }
 
-function CardHeader({ className, ...props }: ComponentProps<"div">): JSX.Element {
+function CardHeader({
+  className,
+  ...props
+}: ComponentProps<"div">): JSX.Element {
   return (
     <div
       data-slot="card-header"
@@ -58,7 +61,10 @@ function CardDescription({
   );
 }
 
-function CardAction({ className, ...props }: ComponentProps<"div">): JSX.Element {
+function CardAction({
+  className,
+  ...props
+}: ComponentProps<"div">): JSX.Element {
   return (
     <div
       data-slot="card-action"
@@ -68,7 +74,10 @@ function CardAction({ className, ...props }: ComponentProps<"div">): JSX.Element
   );
 }
 
-function CardContent({ className, ...props }: ComponentProps<"div">): JSX.Element {
+function CardContent({
+  className,
+  ...props
+}: ComponentProps<"div">): JSX.Element {
   return (
     <div
       data-slot="card-content"
@@ -78,7 +87,10 @@ function CardContent({ className, ...props }: ComponentProps<"div">): JSX.Elemen
   );
 }
 
-function CardFooter({ className, ...props }: ComponentProps<"div">): JSX.Element {
+function CardFooter({
+  className,
+  ...props
+}: ComponentProps<"div">): JSX.Element {
   return (
     <div
       data-slot="card-footer"
