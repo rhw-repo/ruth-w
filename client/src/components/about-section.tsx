@@ -30,11 +30,12 @@ function AboutSection({ links }: Readonly<AboutSectionProps>): JSX.Element {
         About Me
       </h2>
       <p className={styles.body()}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur.
+        Frontend & full stack developer from London, UK. <br></br>
+        Based in Gran Canaria, Spain. Spanish nationality.<br></br>
+        <br></br>
+        18 months designing, architecting, and shipping products for financial
+        services consultancies that solve operational bottlenecks and build
+        client trust.<br></br>Building projects for 3 years.
       </p>
       <div className={styles.actions()}>
         {cvHref && (

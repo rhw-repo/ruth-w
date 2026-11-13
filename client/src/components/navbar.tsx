@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, type JSX } from "react";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import { tv } from "tailwind-variants/lite";
 import SocialLinks from "@/components/social-links.tsx";
 import ExternalLink from "@/components/external-link";
 import { buttonVariants } from "@/components/ui/button-variants";
+import SkillIconRow from "@/components/skill-icon-row";
 import { navItems } from "@/config/nav-items.ts";
 import { useProfile } from "@/hooks/use-profile";
 import { cn } from "@/lib/utils";
@@ -14,7 +15,9 @@ const navbar = tv({
       "sticky top-0 z-50 border-b border-nav-edge bg-nav text-nav-foreground",
     nav: "mx-auto max-w-5xl px-4",
     bar: "flex h-16 items-center justify-between",
-    navRight: "flex items-center gap-4",
+    // Desktop only: the skill logos repeated from the Skills section, as decoration.
+    skills: "max-lg:hidden",
+    navRight: "ml-auto flex items-center gap-4",
     // Desktop only; on mobile the link is in the menu instead.
     coffee: "max-sm:hidden",
     menuButton:
@@ -26,7 +29,6 @@ const navbar = tv({
   },
   variants: {
     placement: {
-      brand: { link: "font-heading text-2xl font-semibold text-headline" },
       menu: { link: "block px-2 py-3 text-base" },
     },
   },
@@ -72,10 +74,7 @@ function Navbar(): JSX.Element {
     <header className={styles.header()}>
       <nav aria-label="Main" className={styles.nav()}>
         <div className={styles.bar()}>
-          <Link to="/" className={styles.link({ placement: "brand" })}>
-            Ruth Westnidge
-          </Link>
-
+          <SkillIconRow className={styles.skills()} />
           <div className={styles.navRight()}>
             {coffeeHref && (
               <ExternalLink

@@ -1,18 +1,9 @@
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { icons, type IconId } from "@/components/icons/icon-registry";
 
-type IntroCardProps = {
-  name: string;
-  role: string;
-};
+// The name and role are in the hero (home-page.tsx), so the card shows only the stack.
 
 type StackGroup = {
   id: string;
@@ -33,10 +24,7 @@ const stackGroups: StackGroup[] = [
 const introCard = tv({
   slots: {
     root: "bg-transparent shadow-none ring-0",
-    header: "px-0",
     content: "px-0",
-    name: "text-3xl font-semibold tracking-tight text-headline sm:text-4xl lg:text-4xl",
-    role: "text-lg",
     groups: "grid gap-3",
     stackGroup: "grid gap-3",
     groupLabel: "text-xl mt-8 mb-2 tracking-wide text-headline uppercase",
@@ -48,15 +36,9 @@ const introCard = tv({
 });
 const styles = introCard();
 
-function IntroCard({ name, role }: Readonly<IntroCardProps>): JSX.Element {
+function IntroCard(): JSX.Element {
   return (
     <Card className={styles.root()}>
-      <CardHeader className={styles.header()}>
-        <CardTitle level={1} className={styles.name()}>
-          {name}
-        </CardTitle>
-        <CardDescription className={styles.role()}>{role}</CardDescription>
-      </CardHeader>
       <CardContent className={styles.content()}>
         <dl className={styles.groups()}>
           {stackGroups.map((group) => (
