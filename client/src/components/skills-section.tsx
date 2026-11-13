@@ -8,7 +8,8 @@ const skills = tv({
     root: "mx-auto max-w-5xl px-4 py-12",
     heading: "mb-6 text-xs tracking-wide text-headline uppercase",
     groups: "grid gap-8 sm:grid-cols-3",
-    stackGroup: "grid content-start gap-4",
+    stackGroup:
+      "grid content-start gap-4 bg-zinc-900 ring-1 ring-zinc-50/30 p-4 rounded-sm",
     groupLabel: "text-xl tracking-wide text-headline uppercase",
     // Both lists share one column template, so their logos line up across the two rows.
     tags: "grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-x-4 gap-y-6",
