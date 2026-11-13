@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { Project } from "@/types/project.ts";
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useProfile } from "@/hooks/use-profile";
 import SkillsSection from "@/components/skills-section";
 import SkillIconRow from "@/components/skill-icon-row";
@@ -85,6 +86,7 @@ function ProjectList(): JSX.Element {
 }
 
 function Hero(): JSX.Element {
+  const isDesktop = useMediaQuery("(min-width: 64rem)");
   const { data: profile } = useProfile();
 
   // The Lanyard, name and role don't wait for the API, so they're set here. The name is
@@ -96,24 +98,28 @@ function Hero(): JSX.Element {
         <p className={heroStyles.role()}>Software Developer</p>
       </div>
       <div className={heroStyles.top()}>
-        <div className={heroStyles.lanyardFrame()}>
-          <ErrorBoundary fallback={<div />}>
-            <Suspense fallback={null}>
-              <Lanyard
-                frontImage="/lanyard_image.webp"
-                cardColor="#fafafa"
-                name="Ruth Westnidge"
-                role="Software Developer"
-                captionColor="var(--badge)"
-                captionTextColor="var(--badge-foreground)"
-                anchor="center"
-                size={0.75}
-                strapLength={0.15}
-                strapColor="#8a3b25"
-              />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
+        {/* COMPARISON RUN (2026-11-13): desktop-only again, to measure the mobile
+            Lanyard's cost to TBT. Remove the isDesktop check to restore the trial. */}
+        {isDesktop && (
+          <div className={heroStyles.lanyardFrame()}>
+            <ErrorBoundary fallback={<div />}>
+              <Suspense fallback={null}>
+                <Lanyard
+                  frontImage="/lanyard_image.webp"
+                  cardColor="#fafafa"
+                  name="Ruth Westnidge"
+                  role="Software Developer"
+                  captionColor="var(--badge)"
+                  captionTextColor="var(--badge-foreground)"
+                  anchor="center"
+                  size={0.75}
+                  strapLength={0.15}
+                  strapColor="#8a3b25"
+                />
+              </Suspense>
+            </ErrorBoundary>
+          </div>
+        )}
         <SkillIconRow className={heroStyles.skills()} />
         <div className={heroStyles.about()}>
           <AboutSection links={profile?.links ?? []} />
