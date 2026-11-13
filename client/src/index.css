@@ -71,8 +71,8 @@
   --nav-foreground: var(--color-zinc-950);
   --nav-edge: var(--color-zinc-200);
   --headline: var(--color-zinc-950);
-  --badge: #8a3b25;
-  --badge-foreground: var(--color-zinc-50);
+  --badge: var(--color-zinc-300);
+  --badge-foreground: var(--color-zinc-700);
   --card: var(--color-neutral-50);
   --card-foreground: var(--color-zinc-950);
   --popover: var(--color-neutral-50);
@@ -100,8 +100,8 @@
   --nav-foreground: var(--color-zinc-50);
   --nav-edge: color-mix(in oklab, var(--color-neutral-50) 15%, transparent);
   --headline: var(--color-teal-400);
-  --badge: #8a3b25;
-  --badge-foreground: var(--color-zinc-50);
+  --badge: color-mix(in oklab, var(--color-neutral-50) 30%, transparent);
+  --badge-foreground: var(--color-zinc-300);
   --card: var(--color-zinc-800);
   --card-foreground: var(--color-zinc-50);
   --popover: var(--color-zinc-800);
