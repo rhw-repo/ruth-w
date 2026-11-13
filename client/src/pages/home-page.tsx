@@ -11,26 +11,28 @@ import ProjectCard from "@/components/project-card";
 import AboutSection from "@/components/about-section";
 import ContactSection from "@/components/contact-section";
 
-// At the page's max width: the Lanyard (60%) beside About (40%), then the
-// name with the role full width underneath (side by side from md, stacked below).
+// From lg: the Lanyard (60%) beside About (40%), then the name with the role full width
+// underneath. Below lg, one column: Lanyard, skill logos, name and role, then About.
 // The name row (h1) comes first in the DOM, so it precedes About's h2 for screen readers;
-// order-last places it below everything visually.
+// order classes place it visually.
+// Below lg, `top` is display: contents, so its children join the hero's grid and can be
+// ordered around the name row.
 // The hero is a size container, so the name's cqi font size scales with the container's width.
 const hero = tv({
   slots: {
     container:
       "@container mx-auto grid max-w-5xl gap-8 px-4 pt-0 pb-4 md:py-12 lg:py-12",
     nameRow:
-      "order-last col-span-full flex flex-col items-center gap-2 md:flex-row md:items-baseline md:justify-center md:gap-6",
+      "col-span-full flex flex-col items-center gap-2 max-lg:order-3 md:flex-row md:items-baseline md:justify-center md:gap-6 lg:order-last",
     name: "font-heading text-[10cqi] leading-none font-semibold tracking-tight whitespace-nowrap text-headline md:text-[8cqi]",
     role: "text-xl whitespace-nowrap text-foreground",
-    // From lg: Lanyard 60%, About 40%. Below lg they stack, with the Lanyard above About.
     // TRIAL (2026-11-13): Lanyard on mobile too, to measure performance. The previous
     // version showed a plain <img> of the photo below lg instead.
-    top: "grid gap-8 lg:grid-cols-[3fr_2fr] lg:items-center",
-    lanyardFrame: "relative z-2 h-80",
+    top: "contents lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8",
+    lanyardFrame: "relative z-2 h-80 max-lg:order-1",
     // Mobile only: the skill logos under the Lanyard (the navbar shows them from lg).
-    skills: "justify-center lg:hidden",
+    skills: "justify-center max-lg:order-2 lg:hidden",
+    about: "max-lg:order-4",
   },
 });
 const heroStyles = hero();
@@ -113,7 +115,9 @@ function Hero(): JSX.Element {
           </ErrorBoundary>
         </div>
         <SkillIconRow className={heroStyles.skills()} />
-        <AboutSection links={profile?.links ?? []} />
+        <div className={heroStyles.about()}>
+          <AboutSection links={profile?.links ?? []} />
+        </div>
       </div>
     </section>
   );

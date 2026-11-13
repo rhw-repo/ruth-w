@@ -9,9 +9,12 @@ type AboutSectionProps = {
 
 const about = tv({
   slots: {
-    heading: "mb-4 mt-4 font-heading text-3xl text-headline",
-    body: "mb-6 max-w-prose font-sans leading-relaxed",
-    actions: "flex flex-wrap items-center gap-4",
+    // Visually hidden: the layout makes it clear this is the intro, but screen reader
+    // users navigating by headings still need it to find the section.
+    heading: "sr-only",
+    // Centred below lg (mobile and tablet), where the hero is one centred column.
+    body: "mb-6 max-w-prose font-sans leading-relaxed text-balance max-lg:mx-auto max-lg:text-center",
+    actions: "flex flex-wrap items-center gap-4 max-lg:justify-center",
     link: "rounded-sm text-2xl font-medium text-headline underline underline-offset-4 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2",
   },
 });
@@ -30,8 +33,9 @@ function AboutSection({ links }: Readonly<AboutSectionProps>): JSX.Element {
         About Me
       </h2>
       <p className={styles.body()}>
-        Frontend & full stack developer from London, UK. <br></br>
-        Based in Gran Canaria, Spain. Spanish nationality.<br></br>
+        Frontend & full stack developer from the UK, based in Spain, with
+        Spanish nationality.
+        <br></br>
         <br></br>
         18 months designing, architecting, and shipping products for financial
         services consultancies that solve operational bottlenecks and build
