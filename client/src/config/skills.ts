@@ -8,8 +8,8 @@ type SkillGroup = {
   label: string;
   // Main stack: the Skills section, the navbar row and the row under the Lanyard.
   items: Skill[];
-  // Secondary row: the Skills section only.
-  libraries: Skill[];
+  // Shown only in the Skills section, after items.
+  sectionOnly: Skill[];
 };
 
 // Shared by the Skills section and SkillIconRow (navbar and under the Lanyard).
@@ -19,18 +19,18 @@ export const skillGroups: SkillGroup[] = [
     id: "frontend",
     label: "Frontend",
     items: ["react", "typescript", "tailwind"],
-    libraries: ["react-router", "tanstack-query", "tanstack-table"],
+    sectionOnly: ["react-router", "tanstack-query", "tanstack-table"],
   },
   {
     id: "full-stack",
     label: "Full stack",
     items: ["node", "express", "mongodb"],
-    libraries: ["mongoose", "zod"],
+    sectionOnly: ["mongoose", "zod"],
   },
   {
     id: "tools",
     label: "Tools",
     items: ["claude-code", "docker"],
-    libraries: [],
+    sectionOnly: [],
   },
 ];

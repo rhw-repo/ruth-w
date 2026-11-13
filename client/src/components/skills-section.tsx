@@ -11,12 +11,12 @@ const skills = tv({
     stackGroup:
       "grid content-start gap-4 bg-zinc-900 ring-1 ring-zinc-50/30 p-4 rounded-sm",
     groupLabel: "text-xl tracking-wide text-headline uppercase",
-    // Both lists share one column template, so their logos line up across the two rows.
-    tags: "grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-x-4 gap-y-6",
-    // Every item gets the same box: min-h (not h) so enlarged text grows it instead of overflowing.
-    tag: "flex min-h-20 flex-col items-start gap-2 text-sm",
+    // Two per line.
+    tags: "grid grid-cols-2 gap-x-4 gap-y-6",
+    // Every item gets the same bordered box: min-h (not h) so enlarged text grows it instead of overflowing.
+    tag: "flex min-h-20 flex-col items-center gap-2 rounded-sm border border-zinc-50/50 px-2 py-2.5 text-center text-sm",
     label: "text-muted-foreground",
-    // 2rem tall, as wide as the logo (capped at 2rem), so every logo starts at the same left edge.
+    // 2rem tall, as wide as the logo (capped at 2rem), centred above its label.
     icon: "h-8 w-auto max-w-8",
   },
 });
@@ -43,17 +43,10 @@ function SkillsSection(): JSX.Element {
           <div key={group.id} className={styles.stackGroup()}>
             <h3 className={styles.groupLabel()}>{group.label}</h3>
             <ul className={styles.tags()}>
-              {group.items.map((id) => (
+              {[...group.items, ...group.sectionOnly].map((id) => (
                 <SkillItem key={id} id={id} />
               ))}
             </ul>
-            {group.libraries.length > 0 && (
-              <ul aria-label="Libraries" className={styles.tags()}>
-                {group.libraries.map((id) => (
-                  <SkillItem key={id} id={id} />
-                ))}
-              </ul>
-            )}
           </div>
         ))}
       </div>
