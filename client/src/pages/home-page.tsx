@@ -24,8 +24,8 @@ const hero = tv({
       "col-span-full flex flex-col items-center gap-2 max-lg:order-3 md:flex-row md:items-baseline md:justify-center md:gap-6 lg:order-last",
     name: "font-heading text-[10cqi] leading-none font-semibold tracking-tight whitespace-nowrap text-headline md:text-[8cqi]",
     role: "text-xl whitespace-nowrap text-foreground",
-    // The Lanyard shows on every width; LanyardStage reserves its space and loads it once
-    // the page has loaded and the browser is idle (see lanyard-stage.tsx).
+    // The Lanyard shows on every width; LanyardStage reserves its space, lazy-loads it
+    // straight away and fades it in (see lanyard-stage.tsx).
     top: "contents lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8",
     lanyardFrame: "relative z-2 h-80 max-lg:order-1",
     // Mobile only: the skill logos under the Lanyard (the navbar shows them from lg).

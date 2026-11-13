@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 
 const Lanyard = lazy(() => import("@/components/lanyard"));
 
-// Reserves the Lanyard's space (its height comes from the className passed in), then
-// starts loading it once the page has loaded and the browser is idle, on every width.
-// Loaded straight away, three.js added ~240 ms of Total Blocking Time on mobile.
-// The Lanyard fades in once it has drawn its first frame.
+// Reserves the Lanyard's space (its height comes from the className passed in) and
+// lazy-loads it straight away. The Lanyard fades in once it has drawn its first frame.
+// Waiting for the load event and an idle browser was tried (2026-11-13) and made mobile
+// worse (TBT 290 → 360 ms, score 87–89 → 84), so it loads immediately.
 const stage = tv({
   slots: {
     root: "relative",
@@ -40,71 +40,34 @@ function OnMounted({ onReady }: Readonly<{ onReady: () => void }>): null {
 }
 
 function LanyardStage({ className }: Readonly<LanyardStageProps>): JSX.Element {
-  const [idle, setIdle] = useState(false);
   const [ready, setReady] = useState(false);
-
-  // Wait for the load event, then for the browser to be idle.
-  useEffect(() => {
-    // TypeScript's DOM types say requestIdleCallback always exists, but Safari doesn't
-    // have it, so it's typed as optional here.
-    const idleWindow: {
-      requestIdleCallback?: Window["requestIdleCallback"];
-      cancelIdleCallback?: Window["cancelIdleCallback"];
-    } = window;
-    let idleId = 0;
-    let timeoutId = 0;
-    const begin = (): void => {
-      if (idleWindow.requestIdleCallback) {
-        idleId = idleWindow.requestIdleCallback(
-          () => {
-            setIdle(true);
-          },
-          { timeout: 2000 },
-        );
-      } else {
-        timeoutId = window.setTimeout(() => {
-          setIdle(true);
-        }, 200);
-      }
-    };
-    if (document.readyState === "complete") begin();
-    else window.addEventListener("load", begin, { once: true });
-    return () => {
-      window.removeEventListener("load", begin);
-      if (idleId) idleWindow.cancelIdleCallback?.(idleId);
-      window.clearTimeout(timeoutId);
-    };
-  }, []);
-
   const styles = stage({ ready });
 
   return (
     <div className={cn(styles.root(), className)}>
-      {idle && (
-        <div className={styles.lanyard()}>
-          <ErrorBoundary fallback={<div />}>
-            <Suspense fallback={null}>
-              <Lanyard
-                frontImage="/lanyard_image.webp"
-                cardColor="#fafafa"
-                name="Ruth Westnidge"
-                role="Software Developer"
-                captionColor="var(--badge)"
-                captionTextColor="var(--badge-foreground)"
-                anchor="center"
-                size={0.75}
-                strapLength={0.15}
-                strapColor="#8a3b25"
-              />
-              <OnMounted
-                onReady={() => {
-                  setReady(true);
-                }}
-              />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-      )}
+      <div className={styles.lanyard()}>
+        <ErrorBoundary fallback={<div />}>
+          <Suspense fallback={null}>
+            <Lanyard
+              frontImage="/lanyard_image.webp"
+              cardColor="#fafafa"
+              name="Ruth Westnidge"
+              role="Software Developer"
+              captionColor="var(--badge)"
+              captionTextColor="var(--badge-foreground)"
+              anchor="center"
+              size={0.75}
+              strapLength={0.15}
+              strapColor="#8a3b25"
+            />
+            <OnMounted
+              onReady={() => {
+                setReady(true);
+              }}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </div>
   );
 }
