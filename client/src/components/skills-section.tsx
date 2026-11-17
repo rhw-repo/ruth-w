@@ -19,14 +19,21 @@ const skills = tv({
     // 2rem tall, as wide as the logo (capped at 2rem), centred above its label.
     icon: "h-8 w-auto max-w-8",
   },
+  variants: {
+    // Wordmarks inherit their colour, so match them to the muted labels.
+    wordmark: {
+      true: { icon: "text-muted-foreground" },
+    },
+  },
 });
 const styles = skills();
 
 function SkillItem({ id }: Readonly<{ id: IconId }>): JSX.Element {
-  const { label, Icon } = icons[id];
+  const entry = icons[id];
+  const { label, Icon } = entry;
   return (
     <li className={styles.tag()}>
-      <Icon className={styles.icon()} />
+      <Icon className={styles.icon({ wordmark: "wordmark" in entry })} />
       <span className={styles.label()}>{label}</span>
     </li>
   );

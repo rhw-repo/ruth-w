@@ -1,19 +1,24 @@
 import type { ComponentType } from "react";
 import ClaudeCodeIcon from "@/components/icons/claude-code-icon";
+import DevContainersIcon from "@/components/icons/dev-containers-icon";
 import DockerIcon from "@/components/icons/docker-icon";
 import ExpressIcon from "@/components/icons/express-icon";
 import GitHubIcon from "@/components/icons/github-icon";
 import JavaScriptIcon from "@/components/icons/javascript-icon";
+import KnipIcon from "@/components/icons/knip-icon";
+import LefthookIcon from "@/components/icons/lefthook-icon";
 import LinkedInIcon from "@/components/icons/linkedin-icon";
 import MongoDbIcon from "@/components/icons/mongodb-icon";
 import MongooseIcon from "@/components/icons/mongoose-icon";
 import NodeIcon from "@/components/icons/node-icon";
 import ReactIcon from "@/components/icons/react-icon";
 import ReactRouterIcon from "@/components/icons/react-router-icon";
+import SonarQubeIdeIcon from "@/components/icons/sonarqube-ide-icon";
 import StripeIcon from "@/components/icons/stripe-icon";
 import TailwindIcon from "@/components/icons/tailwind-icon";
 import TanStackIcon from "@/components/icons/tanstack-icon";
 import TypeScriptIcon from "@/components/icons/typescript-icon";
+import VitestIcon from "@/components/icons/vitest-icon";
 import ZodIcon from "@/components/icons/zod-icon";
 import {
   bcryptMark,
@@ -35,12 +40,12 @@ export const icons = {
     label: "bcrypt",
     Icon: createWordmark("node.bcrypt.js", {
       font: "system",
-      bold: true,
       mark: bcryptMark,
     }),
     wordmark: true,
   },
   "claude-code": { label: "Claude Code", Icon: ClaudeCodeIcon },
+  "dev-containers": { label: "Dev Containers", Icon: DevContainersIcon },
   cors: {
     label: "CORS",
     Icon: createWordmark("cors", { mark: expressMark }),
@@ -57,7 +62,6 @@ export const icons = {
     label: "Express-Validator",
     Icon: createWordmark("express-validator", {
       font: "system",
-      bold: true,
       mark: expressValidatorMark,
     }),
     wordmark: true,
@@ -69,17 +73,21 @@ export const icons = {
     wordmark: true,
   },
   javascript: { label: "JavaScript", Icon: JavaScriptIcon },
+  knip: { label: "Knip", Icon: KnipIcon },
+  lefthook: { label: "Lefthook", Icon: LefthookIcon },
   linkedin: { label: "LinkedIn", Icon: LinkedInIcon },
   mongodb: { label: "MongoDB", Icon: MongoDbIcon },
   mongoose: { label: "Mongoose", Icon: MongooseIcon },
   node: { label: "Node.js", Icon: NodeIcon },
   react: { label: "React", Icon: ReactIcon },
   "react-router": { label: "React Router", Icon: ReactRouterIcon },
+  "sonarqube-ide": { label: "SonarQube for IDE", Icon: SonarQubeIdeIcon },
   stripe: { label: "Stripe", Icon: StripeIcon, wordmark: true },
   tailwind: { label: "Tailwind CSS", Icon: TailwindIcon },
   "tanstack-query": { label: "TanStack Query", Icon: TanStackIcon },
   "tanstack-table": { label: "TanStack Table", Icon: TanStackIcon },
   typescript: { label: "TypeScript", Icon: TypeScriptIcon },
+  vitest: { label: "Vitest", Icon: VitestIcon },
   zod: { label: "Zod", Icon: ZodIcon },
 } as const satisfies Record<string, IconEntry>;
 

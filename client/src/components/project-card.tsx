@@ -26,14 +26,14 @@ const projectCard = tv({
     tags: "flex flex-wrap gap-x-5 gap-y-3",
     logo: "flex items-center gap-2 text-xs",
     icon: "h-6 w-auto max-w-6",
-    label: "text-muted-foreground",
+    label: "text-foreground",
     // Fallback for a tag with no logo in the icon registry.
     tag: "rounded-md border border-badge px-2 py-1 text-xs text-badge-foreground",
   },
   variants: {
     // A wordmark already shows the name, so its label is for screen readers only.
     wordmark: {
-      true: { label: "sr-only" },
+      true: { label: "sr-only", icon: "text-foreground" },
     },
   },
 });
@@ -72,10 +72,11 @@ function ProjectCard({ project }: Readonly<ProjectCardProps>): JSX.Element {
             }
             const entry = icons[id];
             const { Icon } = entry;
+            const isWordmark = "wordmark" in entry;
             return (
               <li key={tag} className={styles.logo()}>
-                <Icon className={styles.icon()} />
-                <span className={styles.label({ wordmark: "wordmark" in entry })}>
+                <Icon className={styles.icon({ wordmark: isWordmark })} />
+                <span className={styles.label({ wordmark: isWordmark })}>
                   {tag}
                 </span>
               </li>

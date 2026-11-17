@@ -7,23 +7,19 @@ type IconProps = { className?: string };
 
 type WordmarkOptions = {
   font?: "helvetica" | "system";
-  bold?: boolean;
   // Shown before the text, e.g. express-validator's tick.
   mark?: ReactNode;
 };
 
 // Libraries with no logo use their name as a wordmark, so they fit the same Icon slot as logos.
-// Sized for the project cards (text-sm). max-w-none comes after className so it lifts the
-// logo width cap; text needs more width.
+// Sized for the project cards (text-xs). max-w-none comes after className so it lifts the
+// logo width cap; text needs more width. Colour comes from the caller's className.
 const wordmark = tv({
-  base: "flex max-w-none items-center gap-[0.3em] text-sm leading-none whitespace-nowrap text-foreground",
+  base: "flex max-w-none items-center gap-[0.3em] text-xs leading-none whitespace-nowrap",
   variants: {
     font: {
       helvetica: "font-['Helvetica_Neue',Helvetica,Arial,sans-serif]",
       system: "font-[system-ui,sans-serif]",
-    },
-    bold: {
-      true: "font-bold",
     },
   },
   defaultVariants: {
@@ -33,11 +29,11 @@ const wordmark = tv({
 
 export function createWordmark(
   text: string,
-  { font, bold, mark }: WordmarkOptions = {},
+  { font, mark }: WordmarkOptions = {},
 ): ComponentType<IconProps> {
   function Wordmark({ className }: Readonly<IconProps>): JSX.Element {
     return (
-      <span aria-hidden="true" className={cn(className, wordmark({ font, bold }))}>
+      <span aria-hidden="true" className={cn(className, wordmark({ font }))}>
         {mark}
         {text}
       </span>

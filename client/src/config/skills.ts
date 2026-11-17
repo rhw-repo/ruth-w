@@ -19,7 +19,7 @@ export const skillGroups: SkillGroup[] = [
     id: "frontend",
     label: "Frontend",
     items: ["react", "typescript", "tailwind"],
-    sectionOnly: ["react-router", "tanstack-query", "tanstack-table"],
+    sectionOnly: ["react-router", "tanstack-query", "tanstack-table", "vitest"],
   },
   {
     id: "full-stack",
@@ -30,7 +30,7 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "tools",
     label: "Tools",
-    items: ["claude-code", "docker"],
-    sectionOnly: [],
+    items: ["docker", "claude-code"],
+    sectionOnly: ["dev-containers", "sonarqube-ide", "lefthook", "knip"],
   },
 ];
