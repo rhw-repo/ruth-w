@@ -4,7 +4,7 @@ export type StackGroup = {
 };
 
 export type ProfileLink = {
-  kind: "linkedin" | "github" | "email" | "buymeacoffee" | "cv";
+  kind: "linkedin" | "github" | "email" | "ko-fi" | "cv";
   href: string;
   label: string;
 };

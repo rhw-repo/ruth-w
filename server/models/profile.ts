@@ -1,12 +1,6 @@
 import { Schema, model, type InferRawDocTypeFromSchema } from "mongoose";
 
-const LINK_KINDS = [
-  "linkedin",
-  "github",
-  "email",
-  "buymeacoffee",
-  "cv",
-] as const;
+const LINK_KINDS = ["linkedin", "github", "email", "ko-fi", "cv"] as const;
 
 const stackGroupSchema = new Schema(
   {

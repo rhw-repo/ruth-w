@@ -3,11 +3,9 @@ import { NavLink } from "react-router";
 import { tv } from "tailwind-variants/lite";
 import SocialLinks from "@/components/social-links.tsx";
 import ExternalLink from "@/components/external-link";
-import { buttonVariants } from "@/components/ui/button-variants";
 import SkillIconRow from "@/components/skill-icon-row";
 import { navItems } from "@/config/nav-items.ts";
 import { useProfile } from "@/hooks/use-profile";
-import { cn } from "@/lib/utils";
 
 const navbar = tv({
   slots: {
@@ -19,7 +17,8 @@ const navbar = tv({
     skills: "max-lg:hidden",
     navRight: "ml-auto flex items-center gap-4",
     // Desktop only; on mobile the link is in the menu instead.
-    coffee: "max-sm:hidden",
+    koFi: "rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 max-sm:hidden",
+    koFiImage: "h-9 w-auto",
     menuButton:
       "inline-flex size-11 items-center justify-center rounded-md focus-visible:outline-2 sm:hidden",
     menuIcon: "size-6",
@@ -49,11 +48,11 @@ function Navbar(): JSX.Element {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { data: profile } = useProfile();
 
-  // Shows once the buymeacoffee link is in the profile. In development, a placeholder
+  // Shows once the Ko-fi link is in the profile. In development, a placeholder
   // stands in until then, so it can be styled; production builds hide it.
-  const coffeeHref =
-    profile?.links.find((link) => link.kind === "buymeacoffee")?.href ??
-    (import.meta.env.DEV ? "https://buymeacoffee.com" : undefined);
+  const koFiHref =
+    profile?.links.find((link) => link.kind === "ko-fi")?.href ??
+    (import.meta.env.DEV ? "https://ko-fi.com" : undefined);
 
   // Escape closes the menu and returns focus to the button
   useEffect(() => {
@@ -76,15 +75,13 @@ function Navbar(): JSX.Element {
         <div className={styles.bar()}>
           <SkillIconRow className={styles.skills()} />
           <div className={styles.navRight()}>
-            {coffeeHref && (
-              <ExternalLink
-                href={coffeeHref}
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "sm" }),
-                  styles.coffee(),
-                )}
-              >
-                Buy me a coffee
+            {koFiHref && (
+              <ExternalLink href={koFiHref} className={styles.koFi()}>
+                <img
+                  src="/support_me_on_kofi_dark.webp"
+                  alt="Support me on Ko-fi"
+                  className={styles.koFiImage()}
+                />
               </ExternalLink>
             )}
             <SocialLinks />
@@ -134,16 +131,20 @@ function Navbar(): JSX.Element {
                 </NavLink>
               </li>
             ))}
-            {coffeeHref && (
+            {koFiHref && (
               <li>
                 <ExternalLink
-                  href={coffeeHref}
+                  href={koFiHref}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
                   className={styles.link({ placement: "menu" })}
                 >
-                  Buy me a coffee
+                  <img
+                    src="/support_me_on_kofi_dark.webp"
+                    alt="Support me on Ko-fi"
+                    className={styles.koFiImage()}
+                  />
                 </ExternalLink>
               </li>
             )}

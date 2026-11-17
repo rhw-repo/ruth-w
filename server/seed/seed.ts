@@ -88,6 +88,7 @@ const profile: ProfileSeed = {
       href: "https://www.linkedin.com/in/ruth-westnidge/",
       label: "LinkedIn",
     },
+    { kind: "ko-fi", href: "https://ko-fi.com/ruth_westnidge", label: "Ko-Fi" },
     {
       kind: "email",
       href: "mailto:ruthuptoeleventech@gmail.com",

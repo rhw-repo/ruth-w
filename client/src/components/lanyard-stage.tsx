@@ -53,8 +53,6 @@ function LanyardStage({ className }: Readonly<LanyardStageProps>): JSX.Element {
               cardColor="#fafafa"
               name="Ruth Westnidge"
               role="Software Developer"
-              captionColor="var(--badge)"
-              captionTextColor="var(--badge-foreground)"
               anchor="center"
               size={0.75}
               strapLength={0.15}
