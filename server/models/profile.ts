@@ -1,12 +1,6 @@
 import { Schema, model, type InferRawDocTypeFromSchema } from "mongoose";
 
-const LINK_KINDS = [
-  "linkedin",
-  "github",
-  "email",
-  "buymeacoffee",
-  "cv",
-] as const;
+const LINK_KINDS = ["linkedin", "github", "email", "ko-fi", "cv"] as const;
 
 const stackGroupSchema = new Schema(
   {
@@ -23,7 +17,6 @@ const linkSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      // https, mailto, or a site path such as /cv.pdf (not protocol-relative //)
       match: [
         /^(https:\/\/|mailto:|\/(?!\/))/,
         "Link must start with https://, mailto: or /",
@@ -44,7 +37,6 @@ const profileSchema = new Schema(
   { timestamps: true },
 );
 
-// The plain shape (not a hydrated document), as seeded and as returned by .lean().
 export type Profile = InferRawDocTypeFromSchema<typeof profileSchema>;
 
 export const ProfileModel = model("Profile", profileSchema);

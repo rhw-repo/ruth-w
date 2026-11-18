@@ -1,109 +1,83 @@
-import { lazy, Suspense } from "react";
-import { ErrorBoundary } from "@sentry/react";
-import { useQuery } from "@tanstack/react-query";
-import type { Project } from "@/types/project.ts";
-import type { Profile } from "@/types/profile.ts";
 import type { JSX } from "react/jsx-runtime";
 import { tv } from "tailwind-variants/lite";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import IntroCard from "@/components/intro-card";
+import { useProfile } from "@/hooks/use-profile";
+import { useProjects } from "@/hooks/use-projects";
+import LanyardStage from "@/components/lanyard-stage";
+import SkillsSection from "@/components/skills-section";
+import SkillIconRow from "@/components/skill-icon-row";
+import ProjectCard from "@/components/project-card";
+import AboutSection from "@/components/about-section";
+import ContactSection from "@/components/contact-section";
 
-// The Lanyard's column runs from the screen's left edge, to give it room to swing.
-// The card is only as wide as it needs, up to 28rem, and its right edge lines up with
-// the navbar's contents (max-w-5xl + px-4): 50% - 32rem + 1rem from the right.
 const hero = tv({
   slots: {
-    root: "flex items-center gap-8 px-4 lg:pr-[max(1rem,calc(50%-31rem))] lg:pl-0",
-    lanyardFrame: "relative z-2 h-150 min-w-0 flex-1",
-    intro: "flex-1 lg:max-w-md lg:flex-none",
+    container:
+      "@container mx-auto grid max-w-5xl gap-8 px-4 pt-0 pb-4 md:pb-12",
+    nameRow:
+      "col-span-full flex flex-col items-center gap-2 max-lg:order-3 md:flex-row md:items-baseline md:justify-center md:gap-6 lg:order-last",
+    name: "font-heading text-[10cqi] leading-none font-semibold tracking-tight whitespace-nowrap text-headline md:text-[8cqi]",
+    role: "text-xl whitespace-nowrap text-foreground",
+    top: "contents lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8 hero-split:grid hero-split:grid-cols-2 hero-split:items-center hero-split:gap-8",
+    lanyardFrame:
+      "relative z-2 h-80 max-lg:order-1 lg:self-start hero-split:col-start-1 hero-split:row-start-1",
+    skills:
+      "justify-center max-lg:order-2 lg:hidden hero-split:col-start-1 hero-split:row-start-2",
+    about:
+      "max-lg:order-4 hero-split:col-start-2 hero-split:row-span-2 hero-split:row-start-1",
   },
 });
 const heroStyles = hero();
 
-const section = tv({ base: "mx-auto max-w-5xl px-4" });
-
-const Lanyard = lazy(() => import("@/components/lanyard"));
-
-// TEMP: placeholder content to test page scrolling. Remove.
-const placeholder = tv({ base: "space-y-4 py-8" });
-const loremIpsum =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
-
-async function fetchProjects(): Promise<Project[]> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/projects`);
-  if (!res.ok) {
-    throw new Error(`Request failed: ${String(res.status)}`);
-  }
-  return (await res.json()) as Project[];
-}
+const projects = tv({
+  slots: {
+    root: "mx-auto max-w-5xl px-4 py-12",
+    heading: "mb-6 text-xs tracking-wide text-headline uppercase",
+    grid: "grid gap-8",
+  },
+});
+const projectStyles = projects();
 
 function ProjectList(): JSX.Element {
-  const { data, isPending, error } = useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects,
-  });
+  const { data, isPending, error } = useProjects();
 
   if (isPending) return <p>Loading…</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <ul className={section()}>
-      {data.map((project) => (
-        <li key={project._id}>
-          <h2>{project.title}</h2>
-          <p>{project.summary}</p>
-        </li>
-      ))}
-    </ul>
+    <section
+      aria-labelledby="projects-heading"
+      className={projectStyles.root()}
+    >
+      <h2 id="projects-heading" className={projectStyles.heading()}>
+        Projects
+      </h2>
+      <ul className={projectStyles.grid()}>
+        {data.map((project) => (
+          <li key={project._id}>
+            <ProjectCard project={project} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
-async function fetchProfile(): Promise<Profile> {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/profile`);
-  if (!res.ok) {
-    throw new Error(`Request failed: ${String(res.status)}`);
-  }
-  return (await res.json()) as Profile;
-}
-
 function Hero(): JSX.Element {
-  const isDesktop = useMediaQuery("(min-width: 64rem)");
-  const { data: profile, error } = useQuery({
-    queryKey: ["profile"],
-    queryFn: fetchProfile,
-  });
+  const { data: profile } = useProfile();
 
-  let intro: JSX.Element | null = null;
-  if (profile) {
-    intro = (
-      <IntroCard
-        name={profile.name}
-        role={profile.role}
-        stack={profile.stack}
-      />
-    );
-  } else if (error) {
-    intro = <p>Couldn't load the profile.</p>;
-  }
-
-  // The Lanyard doesn't wait for the API, so its caption is set here.
   return (
-    <section className={heroStyles.root()}>
-      {isDesktop && (
-        <div className={heroStyles.lanyardFrame()}>
-          <ErrorBoundary fallback={<div />}>
-            <Suspense fallback={null}>
-              <Lanyard
-                frontImage="lanyard_image.webp"
-                name="Ruth Westnidge"
-                role="Software Developer"
-                anchor="right"
-              />
-            </Suspense>
-          </ErrorBoundary>
+    <section className={heroStyles.container()}>
+      <div className={heroStyles.nameRow()}>
+        <h1 className={heroStyles.name()}>Ruth Westnidge</h1>
+        <p className={heroStyles.role()}>Software Developer</p>
+      </div>
+      <div className={heroStyles.top()}>
+        <LanyardStage className={heroStyles.lanyardFrame()} />
+        <SkillIconRow className={heroStyles.skills()} />
+        <div className={heroStyles.about()}>
+          <AboutSection links={profile?.links ?? []} />
         </div>
-      )}
-      <div className={heroStyles.intro()}>{intro}</div>
+      </div>
     </section>
   );
 }
@@ -113,11 +87,8 @@ function HomePage(): JSX.Element {
     <>
       <Hero />
       <ProjectList />
-      <div className={section({ class: placeholder() })}>
-        {Array.from({ length: 12 }, (_, i) => (
-          <p key={i}>{loremIpsum}</p>
-        ))}
-      </div>
+      <SkillsSection />
+      <ContactSection />
     </>
   );
 }

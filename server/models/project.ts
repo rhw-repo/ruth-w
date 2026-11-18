@@ -24,7 +24,6 @@ const projectSchema = new Schema(
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
 
-    // Projects with their own page at /projects/:slug
     hasPage: { type: Boolean, default: false },
     slug: {
       type: String,

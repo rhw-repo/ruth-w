@@ -10,45 +10,74 @@ const projects: ProjectSeed[] = [
   {
     title: "Gold Investing Website",
     summary:
-      "React & TypeScript. Lighthouse scores up by 40+ points. Replacement for legacy WordPress website. Accessible.",
-    tags: ["React", "TypeScript", "React Router"],
+      "Lighthouse scores up by 40+ points. Replacement for legacy WordPress website. Accessible, responsive.",
+    tags: ["React", "TypeScript"],
     repoUrl: "https://github.com/rhw-repo/update-react-ui",
     liveUrl: "https://react-typescript-ui-demo-chingu.up.railway.app/",
+    image: {
+      url: "/gold-investing-thumbnail.webp",
+      alt: "Vorlond homepage: the heading Growth Investing over a lake with forested islands and mountains",
+    },
     featured: true,
     order: 2,
   },
   {
-    title: "React ECommerce Store With Stripe Payments",
-    summary: "React, TypeScript. Tailwind CSS, Node.js, Express, Mongo.",
+    title: "React ECommerce Store",
+    summary:
+      "Store with redirect to a Stripe-hosted checkout page for payment, then back to an order confirmation. Responsive, accessible, fast page loading.",
     tags: [
       "React",
       "TypeScript",
-      "React Router",
-      "TanStack Query",
+      "Stripe",
       "Tailwind CSS",
-      "Express.js",
       "Node.js",
+      "Express.js",
       "MongoDB",
-      "Zod",
-      "CORS",
-      "Helmet",
     ],
     repoUrl: "https://github.com/rhw-repo/react-store",
     liveUrl: "https://client-production-1a36.up.railway.app/store",
+    image: {
+      url: "/react-store-stripe.webp",
+      alt: "Store checkout: Stripe payment form with card details and a Pay button",
+    },
     featured: true,
     order: 1,
+  },
+  {
+    title: "Financial Services CMS",
+    summary:
+      "Authenticated dashboard to replace Excel spreadsheets to track content for a marketing team. Accessible, responsive, fast page loading",
+    tags: [
+      "React",
+      "JavaScript",
+      "Node.js",
+      "Express.js",
+      "Express-Session",
+      "Express-Validator",
+      "Helmet",
+      "CORS",
+      "MongoDB",
+      "bcrypt",
+    ],
+    repoUrl: "https://github.com/rhw-repo/react-post-manager",
+    liveUrl: "https://frontend-production-32c1.up.railway.app/login",
+    image: {
+      url: "/financial-services-full-stack.webp",
+      alt: "CMS dashboard: a saved content item showing its title, content, tag, created and updated dates, with a confirmation that edits were saved",
+    },
+    featured: true,
+    order: 3,
   },
 ];
 
 type ProfileSeed = Omit<Profile, "_id" | "createdAt" | "updatedAt">;
 
-// Add buymeacoffee and cv links here once they exist.
 const profile: ProfileSeed = {
   name: "Ruth Westnidge",
   role: "Software Developer",
   stack: [
     { label: "Frontend", items: ["React", "TypeScript"] },
-    { label: "Backend", items: ["Node.js", "Express.js", "MongoDB"] },
+    { label: "Full stack", items: ["Node.js", "Express.js", "MongoDB"] },
     { label: "Tools", items: ["Claude Code", "Docker"] },
   ],
   links: [
@@ -58,15 +87,16 @@ const profile: ProfileSeed = {
       href: "https://www.linkedin.com/in/ruth-westnidge/",
       label: "LinkedIn",
     },
+    { kind: "ko-fi", href: "https://ko-fi.com/ruth_westnidge", label: "Ko-Fi" },
     {
       kind: "email",
       href: "mailto:ruthuptoeleventech@gmail.com",
       label: "Email",
     },
+    { kind: "cv", href: "/ruth-westnidge-cv.pdf", label: "CV" },
   ],
 };
 
-// Matches on title, so running the script again updates the project instead of duplicating it.
 async function upsertProject(data: ProjectSeed): Promise<void> {
   const existing = await ProjectModel.findOne({ title: data.title });
   if (existing) {
@@ -83,7 +113,6 @@ async function seedProjects(): Promise<void> {
   await Promise.all(projects.map(upsertProject));
 }
 
-// There's only one profile, so this updates it if it exists.
 async function upsertProfile(): Promise<void> {
   const existing = await ProfileModel.findOne();
   if (existing) {
