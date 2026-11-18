@@ -1,16 +1,22 @@
 import { useEffect, useRef, useState, type JSX } from "react";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import { tv } from "tailwind-variants/lite";
 import SocialLinks from "@/components/social-links.tsx";
+import ExternalLink from "@/components/external-link";
+import SkillIconRow from "@/components/skill-icon-row";
 import { navItems } from "@/config/nav-items.ts";
+import { useProfile } from "@/hooks/use-profile";
 
 const navbar = tv({
   slots: {
     header:
-      "sticky top-0 z-50 border-b border-border bg-nav text-nav-foreground",
+      "sticky top-0 z-50 border-b border-nav-edge bg-nav text-nav-foreground",
     nav: "mx-auto max-w-5xl px-4",
     bar: "flex h-16 items-center justify-between",
-    navRight: "flex items-center gap-4",
+    skills: "max-lg:hidden",
+    navRight: "ml-auto flex items-center gap-4",
+    koFi: "rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 max-sm:hidden",
+    koFiImage: "h-9 w-auto",
     menuButton:
       "inline-flex size-11 items-center justify-center rounded-md focus-visible:outline-2 sm:hidden",
     menuIcon: "size-6",
@@ -20,7 +26,6 @@ const navbar = tv({
   },
   variants: {
     placement: {
-      brand: { link: "font-heading font-semibold text-headline" },
       menu: { link: "block px-2 py-3 text-base" },
     },
   },
@@ -28,7 +33,7 @@ const navbar = tv({
     {
       placement: "menu",
       class: {
-        link: "text-muted-foreground hover:text-nav-foreground aria-[current=page]:text-nav-foreground",
+        link: "text-muted-foreground hover:text-headline aria-[current=page]:text-nav-foreground",
       },
     },
   ],
@@ -39,8 +44,12 @@ const styles = navbar();
 function Navbar(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const { data: profile } = useProfile();
 
-  // Escape closes the menu and returns focus to the button
+  const koFiHref =
+    profile?.links.find((link) => link.kind === "ko-fi")?.href ??
+    (import.meta.env.DEV ? "https://ko-fi.com" : undefined);
+
   useEffect(() => {
     if (!isMenuOpen) return;
     const handleKeyDown = (event: KeyboardEvent): void => {
@@ -59,11 +68,17 @@ function Navbar(): JSX.Element {
     <header className={styles.header()}>
       <nav aria-label="Main" className={styles.nav()}>
         <div className={styles.bar()}>
-          <Link to="/" className={styles.link({ placement: "brand" })}>
-            Ruth Westnidge
-          </Link>
-
+          <SkillIconRow className={styles.skills()} />
           <div className={styles.navRight()}>
+            {koFiHref && (
+              <ExternalLink href={koFiHref} className={styles.koFi()}>
+                <img
+                  src="/support_me_on_kofi_dark.webp"
+                  alt="Support me on Ko-fi"
+                  className={styles.koFiImage()}
+                />
+              </ExternalLink>
+            )}
             <SocialLinks />
 
             <button
@@ -111,6 +126,23 @@ function Navbar(): JSX.Element {
                 </NavLink>
               </li>
             ))}
+            {koFiHref && (
+              <li>
+                <ExternalLink
+                  href={koFiHref}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                  }}
+                  className={styles.link({ placement: "menu" })}
+                >
+                  <img
+                    src="/support_me_on_kofi_dark.webp"
+                    alt="Support me on Ko-fi"
+                    className={styles.koFiImage()}
+                  />
+                </ExternalLink>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

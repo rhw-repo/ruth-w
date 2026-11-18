@@ -16,10 +16,13 @@
 - Express
 - MongoDB
 
-**React Libraries**
+**Frontend Libraries**
 
 - TanStack Query
 - Tailwind CSS
+- Three.js
+- Shadcn UI
+- React Router
 
 **Tooling**
 
@@ -29,6 +32,7 @@
 - Prettier
 - ESLint
 - SonarQube
+- pnpm
 
 ---
 

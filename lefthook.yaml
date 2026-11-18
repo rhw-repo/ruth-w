@@ -34,10 +34,10 @@ post-merge:
 post-checkout:
   commands:
     root-install:
-      run: git diff --quiet {1} {2} -- pnpm-lock.yaml || pnpm install --frozen-lockfile
+      run: '[ "{3}" = 0 ] || git diff --quiet {1} {2} -- pnpm-lock.yaml || pnpm install --frozen-lockfile'
     client-install:
       root: client/
-      run: git diff --quiet {1} {2} -- pnpm-lock.yaml || pnpm install --frozen-lockfile
+      run: '[ "{3}" = 0 ] || git diff --quiet {1} {2} -- pnpm-lock.yaml || pnpm install --frozen-lockfile'
     server-install:
       root: server/
-      run: git diff --quiet {1} {2} -- pnpm-lock.yaml || pnpm install --frozen-lockfile
+      run: '[ "{3}" = 0 ] || git diff --quiet {1} {2} -- pnpm-lock.yaml || pnpm install --frozen-lockfile'

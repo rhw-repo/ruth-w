@@ -16,7 +16,6 @@ const externalLink = tv({
 
 const styles = externalLink();
 
-// noreferrer also implies noopener, so the new tab can't reach window.opener
 function ExternalLink({
   children,
   ...props
