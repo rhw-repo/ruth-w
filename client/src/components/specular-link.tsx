@@ -633,7 +633,11 @@ function SpecularLink({
       }
       {...rest}
     >
-      <canvas ref={canvasRef} className={styles.canvas()} aria-hidden="true" />
+      <canvas // NOSONAR: not focusable (no tabindex, pointer-events-none), so aria-hidden is safe
+        ref={canvasRef}
+        className={styles.canvas()}
+        aria-hidden="true"
+      />
       <span className={styles.label()}>{children}</span>
     </a>
   );
