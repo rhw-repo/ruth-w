@@ -6,7 +6,7 @@ const contact = tv({
   slots: {
     root: "mx-auto max-w-5xl scroll-mt-16 px-4 py-12",
     heading: "mb-6 text-xs tracking-wide text-headline uppercase",
-    email: "flex items-center gap-2",
+    email: "flex items-center gap-2 text-2xl text-secondary-foreground",
     icon: "size-4 shrink-0",
   },
 });

@@ -5,7 +5,7 @@ import { skillGroups } from "@/config/skills";
 
 const skills = tv({
   slots: {
-    root: "mx-auto max-w-5xl px-4 py-12",
+    root: "mx-auto max-w-5xl scroll-mt-16 px-4 py-12",
     heading: "mb-6 text-xs tracking-wide text-headline uppercase",
     groups: "grid gap-8 sm:grid-cols-3",
     stackGroup:
@@ -41,7 +41,11 @@ function SkillItem({ id }: Readonly<{ id: IconId }>): JSX.Element {
 
 function SkillsSection(): JSX.Element {
   return (
-    <section aria-labelledby="skills-heading" className={styles.root()}>
+    <section
+      id="skills"
+      aria-labelledby="skills-heading"
+      className={styles.root()}
+    >
       <h2 id="skills-heading" className={styles.heading()}>
         Skills
       </h2>

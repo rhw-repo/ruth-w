@@ -9,6 +9,8 @@ type AboutSectionProps = {
 
 const about = tv({
   slots: {
+    // Clears the sticky navbar (h-16) when jumped to from #about.
+    root: "scroll-mt-16",
     // Visually hidden: the layout makes it clear this is the intro, but screen reader
     // users navigating by headings still need it to find the section.
     heading: "sr-only",
@@ -40,7 +42,11 @@ function AboutSection({ links }: Readonly<AboutSectionProps>): JSX.Element {
     (import.meta.env.DEV ? "/ruth-westnidge-cv.pdf" : undefined);
 
   return (
-    <section aria-labelledby="about-heading">
+    <section
+      id="about"
+      aria-labelledby="about-heading"
+      className={styles.root()}
+    >
       <h2 id="about-heading" className={styles.heading()}>
         About Me
       </h2>

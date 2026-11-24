@@ -42,7 +42,7 @@ const heroStyles = hero();
 
 const projects = tv({
   slots: {
-    root: "mx-auto max-w-5xl px-4 py-12",
+    root: "mx-auto max-w-5xl scroll-mt-16 px-4 py-12",
     heading: "mb-6 text-xs tracking-wide text-headline uppercase",
     // One full-width card per row (trial, 2026-11-13).
     grid: "grid gap-8",
@@ -60,6 +60,7 @@ function ProjectList(): JSX.Element {
 
   return (
     <section
+      id="projects"
       aria-labelledby="projects-heading"
       className={projectStyles.root()}
     >

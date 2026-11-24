@@ -19,6 +19,7 @@ import TailwindIcon from "@/components/icons/tailwind-icon";
 import TanStackIcon from "@/components/icons/tanstack-icon";
 import TypeScriptIcon from "@/components/icons/typescript-icon";
 import VitestIcon from "@/components/icons/vitest-icon";
+import YouTubeIcon from "@/components/icons/youtube-icon";
 import ZodIcon from "@/components/icons/zod-icon";
 import {
   bcryptMark,
@@ -88,6 +89,7 @@ export const icons = {
   "tanstack-table": { label: "TanStack Table", Icon: TanStackIcon },
   typescript: { label: "TypeScript", Icon: TypeScriptIcon },
   vitest: { label: "Vitest", Icon: VitestIcon },
+  youtube: { label: "YouTube", Icon: YouTubeIcon },
   zod: { label: "Zod", Icon: ZodIcon },
 } as const satisfies Record<string, IconEntry>;
 
