@@ -1,3 +1,6 @@
+// Adapted from the React Bits Lanyard component: https://reactbits.dev/components/lanyard
+// Copyright (c) 2026 David Haz. MIT + Commons Clause: https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md
+
 import { useEffect, useLayoutEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import type { JSX } from "react/jsx-runtime";

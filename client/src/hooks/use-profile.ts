@@ -9,8 +9,6 @@ async function fetchProfile(): Promise<Profile> {
   return (await res.json()) as Profile;
 }
 
-// Shared by the hero and the navbar. Both use the ["profile"] key, so TanStack Query
-// makes one request and shares the result.
 export function useProfile(): UseQueryResult<Profile> {
   return useQuery({ queryKey: ["profile"], queryFn: fetchProfile });
 }

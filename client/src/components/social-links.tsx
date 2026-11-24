@@ -30,7 +30,6 @@ function SocialLinks({
   const styles = socialLinksStyles({ size });
   const { data: profile } = useProfile();
 
-  // Profile links whose kind has a logo in the registry (github, linkedin), in the profile's order
   const links = (profile?.links ?? []).flatMap((link) =>
     link.kind in icons
       ? [{ ...link, Icon: icons[link.kind as IconId].Icon }]

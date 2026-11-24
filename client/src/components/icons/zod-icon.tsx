@@ -11,7 +11,7 @@ function ZodIcon({ className }: Readonly<IconProps>): JSX.Element {
       className={className}
     >
       {/* Simple Icons (CC0) - https://simpleicons.org */}
-      {/* Underlay: the outer outline only, in zinc-50, so the logo's cut-outs show light, not the background. */}
+      {/* Light underlay so the logo's cut-outs show zinc-50, not the background. */}
       <path
         className="fill-zinc-50"
         d="M2.584 3.582a2.247 2.247 0 0 1 2.112-1.479h14.617c.948 0 1.794.595 2.115 1.487l2.44 6.777a2.248 2.248 0 0 1-.624 2.443l-9.61 8.52a2.247 2.247 0 0 1-2.963.018L.776 12.773a2.248 2.248 0 0 1-.64-2.467Z"

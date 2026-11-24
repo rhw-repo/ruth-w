@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 // link (<a>) rather than a <button>, so it can navigate and download files.
 // Changes from the original: link semantics, rem units, tv() classes, a CSS border
 // fallback when WebGL is unavailable, and the shine stays still under reduced motion.
+// Copyright (c) 2026 David Haz. MIT + Commons Clause: https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md
 
 type SpecularLinkSize = "sm" | "md" | "lg";
 
@@ -26,12 +27,10 @@ type SpecularLinkProps = Omit<
   size?: SpecularLinkSize;
   /** Corner radius in rem. */
   radius?: number;
-  /** Any CSS colour, including var(--…). */
   tint?: string;
   tintOpacity?: number;
   /** Backdrop blur in rem. */
   blur?: number;
-  /** Any CSS colour, including var(--…). */
   textColor?: string;
   /** Hex or named colour (drawn on a canvas, so var(--…) won't work). */
   lineColor?: string;
@@ -306,7 +305,6 @@ function SpecularLink({
   };
   const settingsRef = useRef(settings);
 
-  // Keep the animation loop's settings current, then let it redraw.
   useLayoutEffect(() => {
     settingsRef.current = settings;
     wakeRef.current?.();
@@ -325,7 +323,6 @@ function SpecularLink({
     if (!element || !canvas || !gl) return;
     const program = linkProgram(gl);
     if (!program) return;
-    // WebGL works, so the canvas draws the border and the CSS fallback border is hidden.
     element.dataset.gl = "true";
 
     const uniforms = Object.fromEntries(
@@ -351,7 +348,6 @@ function SpecularLink({
       "(prefers-reduced-motion: reduce)",
     ).matches;
     const colors = new Map<string, [number, number, number]>();
-    // rem is the root font size in CSS pixels, so rem-based props can be drawn on the canvas.
     const view = { width: 1, height: 1, ratio: 1, rem: 16 };
     const pointer = { x: 0, y: 0, known: false };
     const state = { spot: 0, level: 0, press: 0, ready: false };
@@ -397,7 +393,6 @@ function SpecularLink({
     };
 
     const aim = (s: Settings): { spot: number; near: number } | null => {
-      // Under reduced motion the shine doesn't follow the pointer.
       if (!s.followMouse || reduce || !pointer.known) return null;
       const rect = element.getBoundingClientRect();
       const scale = rect.width / view.width || 1;
@@ -514,8 +509,6 @@ function SpecularLink({
       if (!raf && visible && !lost) raf = requestAnimationFrame(frame);
     };
 
-    // If the browser drops the context (e.g. a GPU reset), stop drawing, hide the
-    // canvas and bring back the CSS border, instead of showing Chrome's sad face.
     const onContextLost = (): void => {
       lost = true;
       cancelAnimationFrame(raf);

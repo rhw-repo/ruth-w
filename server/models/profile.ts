@@ -45,7 +45,6 @@ const profileSchema = new Schema(
   { timestamps: true },
 );
 
-// The plain shape (not a hydrated document), as seeded and as returned by .lean().
 export type Profile = InferRawDocTypeFromSchema<typeof profileSchema>;
 
 export const ProfileModel = model("Profile", profileSchema);

@@ -9,10 +9,7 @@ type ProjectCardProps = {
   project: Project;
 };
 
-// Below md, the card is stacked: image, summary (at least 4 lines from sm up), tags, title.
-// The title comes first for screen readers; row-start-4 shows it last.
-// From md, cards are full width: the image in a 16rem left column spanning all rows, and
-// title, summary and tags stacked on the right, with the title at the top.
+// The title is first in the DOM for screen readers; row-start-4 shows it last below md.
 const projectCard = tv({
   slots: {
     card: "grid h-full grid-rows-[auto_auto_1fr_auto] bg-zinc-900 ring-zinc-50/30 sm:grid-rows-[auto_minmax(5rem,auto)_1fr_auto] md:grid-cols-[16rem_1fr] md:grid-rows-[auto_auto_1fr]",
@@ -24,18 +21,15 @@ const projectCard = tv({
     image: "aspect-5/6 w-full object-cover object-top",
     title:
       "text-center text-sm font-semibold tracking-wide text-headline uppercase md:text-left",
-    // A wrapping row: each tag is its logo then its label, at its natural width.
     tags: "flex flex-wrap gap-x-5 gap-y-3",
     logo: "flex items-center gap-2 text-xs",
     icon: "h-6 w-auto max-w-6",
     label: "text-foreground",
-    // Fallback for a tag with no logo in the icon registry.
     tag: "rounded-md border border-badge px-2 py-1 text-xs text-badge-foreground",
     links: "flex flex-wrap gap-x-6 gap-y-2",
     link: "rounded-sm text-sm font-medium text-headline underline underline-offset-4 hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2",
   },
   variants: {
-    // A wordmark already shows the name, so its label is for screen readers only.
     wordmark: {
       true: { label: "sr-only", icon: "text-foreground" },
     },
@@ -91,7 +85,6 @@ function ProjectCard({ project }: Readonly<ProjectCardProps>): JSX.Element {
         </ul>
         {hasLinks && (
           <div className={styles.links()}>
-            {/* The hidden title tells screen reader users which project each link is for. */}
             {project.liveUrl && (
               <ExternalLink href={project.liveUrl} className={styles.link()}>
                 Visit demo<span className="sr-only">: {project.title}</span>

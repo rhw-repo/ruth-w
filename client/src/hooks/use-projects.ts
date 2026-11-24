@@ -13,9 +13,7 @@ async function fetchProjects(): Promise<Project[]> {
   return (await res.json()) as Project[];
 }
 
-// Shared by main.tsx, which prefetches before the first render, and ProjectList.
-// The URL must match the <link rel="preload"> in index.html, so the browser reuses
-// the response it started downloading with the HTML.
+// The URL must match the <link rel="preload"> in index.html, so the browser reuses that response.
 export const projectsQuery = queryOptions({
   queryKey: ["projects"],
   queryFn: fetchProjects,

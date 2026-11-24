@@ -9,13 +9,6 @@ import ProjectCard from "@/components/project-card";
 import AboutSection from "@/components/about-section";
 import ContactSection from "@/components/contact-section";
 
-// From lg: the Lanyard (60%) beside About (40%), then the name with the role full width
-// underneath. Below lg, one column: Lanyard, skill logos, name and role, then About.
-// The name row (h1) comes first in the DOM, so it precedes About's h2 for screen readers;
-// order classes place it visually.
-// Below lg, `top` is display: contents, so its children join the hero's grid and can be
-// ordered around the name row.
-// The hero is a size container, so the name's cqi font size scales with the container's width.
 const hero = tv({
   slots: {
     container:
@@ -24,34 +17,28 @@ const hero = tv({
       "col-span-full flex flex-col items-center gap-2 max-lg:order-3 md:flex-row md:items-baseline md:justify-center md:gap-6 lg:order-last",
     name: "font-heading text-[10cqi] leading-none font-semibold tracking-tight whitespace-nowrap text-headline md:text-[8cqi]",
     role: "text-xl whitespace-nowrap text-foreground",
-    // The Lanyard shows on every width; LanyardStage reserves its space, lazy-loads it
-    // straight away and fades it in (see lanyard-stage.tsx).
-    // hero-split (index.css: below lg, phones in landscape and tablets in portrait):
-    // Lanyard and logos on the left, About on the right.
     top: "contents lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8 hero-split:grid hero-split:grid-cols-2 hero-split:items-center hero-split:gap-8",
     lanyardFrame:
       "relative z-2 h-80 max-lg:order-1 lg:self-start hero-split:col-start-1 hero-split:row-start-1",
-    // Mobile only: the skill logos under the Lanyard (the navbar shows them from lg).
     skills:
       "justify-center max-lg:order-2 lg:hidden hero-split:col-start-1 hero-split:row-start-2",
     about:
       "max-lg:order-4 hero-split:col-start-2 hero-split:row-span-2 hero-split:row-start-1",
   },
 });
+
 const heroStyles = hero();
 
 const projects = tv({
   slots: {
     root: "mx-auto max-w-5xl scroll-mt-16 px-4 py-12",
     heading: "mb-6 text-xs tracking-wide text-headline uppercase",
-    // One full-width card per row (trial, 2026-11-13).
     grid: "grid gap-8",
   },
 });
+
 const projectStyles = projects();
 
-// main.tsx prefetches the projects before the first render, so data is normally
-// already here and "Loading…" only shows if the API is slow.
 function ProjectList(): JSX.Element {
   const { data, isPending, error } = useProjects();
 
@@ -81,8 +68,6 @@ function ProjectList(): JSX.Element {
 function Hero(): JSX.Element {
   const { data: profile } = useProfile();
 
-  // The Lanyard, name and role don't wait for the API, so they're set here. The name is
-  // likely the page's LCP element, and the role sits beside it, so neither waits for a request.
   return (
     <section className={heroStyles.container()}>
       <div className={heroStyles.nameRow()}>

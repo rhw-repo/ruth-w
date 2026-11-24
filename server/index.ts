@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response } from "express";
 import helmet from "helmet";
 import cors from "cors";
+import * as Sentry from "@sentry/node";
 import { connectToDatabase } from "./db.ts";
 import { ProjectModel } from "./models/project.ts";
 import { ProfileModel } from "./models/profile.ts";
@@ -12,12 +13,10 @@ app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173" }));
 const port = Number(process.env.PORT) || 3000;
 
-// Health check
 app.get("/", (_req: Request, res: Response) => {
   res.sendStatus(204);
 });
 
-// The API is for the client app, not for viewing in the address bar.
 app.use("/api", (req, res, next) => {
   if (req.get("Sec-Fetch-Mode") === "navigate") {
     res.sendStatus(404);
@@ -41,6 +40,8 @@ app.get("/api/profile", async (_req: Request, res: Response) => {
   }
   res.json(profile);
 });
+
+Sentry.setupExpressErrorHandler(app);
 
 await connectToDatabase();
 

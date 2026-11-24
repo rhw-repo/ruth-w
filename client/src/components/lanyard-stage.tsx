@@ -5,10 +5,7 @@ import { cn } from "@/lib/utils";
 
 const Lanyard = lazy(() => import("@/components/lanyard"));
 
-// Reserves the Lanyard's space (its height comes from the className passed in) and
-// lazy-loads it straight away. The Lanyard fades in once it has drawn its first frame.
-// Waiting for the load event and an idle browser was tried (2026-11-13) and made mobile
-// worse (TBT 290 → 360 ms, score 87–89 → 84), so it loads immediately.
+// Loads immediately: deferring to the load event or an idle browser was tried and made mobile TBT worse.
 const stage = tv({
   slots: {
     root: "relative",
@@ -27,8 +24,7 @@ type LanyardStageProps = {
   className?: string;
 };
 
-// Calls onReady on the frame after it mounts. It sits after the Lanyard inside Suspense,
-// so by then the Lanyard has mounted and drawn its first frame.
+// Must sit after the Lanyard inside Suspense, so it fires after the Lanyard's first frame.
 function OnMounted({ onReady }: Readonly<{ onReady: () => void }>): null {
   useEffect(() => {
     const id = requestAnimationFrame(onReady);

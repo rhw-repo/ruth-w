@@ -16,9 +16,7 @@ type SkillIconRowProps = {
   className?: string;
 };
 
-// A row of small skill logos, used as decoration in the desktop navbar and under the
-// Lanyard on mobile. Hidden from screen readers: it repeats the Skills section.
-// Each logo has a title, so hovering shows its name.
+// Decorative: hidden from screen readers because it repeats the Skills section.
 function SkillIconRow({ className }: Readonly<SkillIconRowProps>): JSX.Element {
   return (
     <ul aria-hidden="true" className={cn(styles.root(), className)}>

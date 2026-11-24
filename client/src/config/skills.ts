@@ -1,19 +1,14 @@
 import type { IconId } from "@/components/icons/icon-registry";
 
-// A skill is an icon-registry id; the registry supplies its label and logo.
 type Skill = IconId;
 
 type SkillGroup = {
   id: string;
   label: string;
-  // Main stack: the Skills section, the navbar row and the row under the Lanyard.
   items: Skill[];
-  // Shown only in the Skills section, after items.
   sectionOnly: Skill[];
 };
 
-// Shared by the Skills section and SkillIconRow (navbar and under the Lanyard).
-// The group ids are fixed, for React keys.
 export const skillGroups: SkillGroup[] = [
   {
     id: "frontend",

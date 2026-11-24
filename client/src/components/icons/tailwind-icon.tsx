@@ -2,7 +2,6 @@ import type { JSX } from "react";
 
 type IconProps = { className?: string };
 
-// The viewBox replaces the original's clipPath (0 0 54 32.4), so there's no id to duplicate.
 function TailwindIcon({ className }: Readonly<IconProps>): JSX.Element {
   return (
     <svg

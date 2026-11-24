@@ -11,16 +11,13 @@ const skills = tv({
     stackGroup:
       "grid content-start gap-4 bg-zinc-900 ring-1 ring-zinc-50/30 p-4 rounded-sm",
     groupLabel: "text-xl tracking-wide text-headline uppercase",
-    // Two per line.
     tags: "grid grid-cols-2 gap-x-4 gap-y-6",
-    // Every item gets the same bordered box: min-h (not h) so enlarged text grows it instead of overflowing.
+    // min-h, not h, so enlarged text grows the box instead of overflowing.
     tag: "flex min-h-20 flex-col items-center gap-2 rounded-sm border border-zinc-50/50 px-2 py-2.5 text-center text-sm",
     label: "text-muted-foreground",
-    // 2rem tall, as wide as the logo (capped at 2rem), centred above its label.
     icon: "h-8 w-auto max-w-8",
   },
   variants: {
-    // Wordmarks inherit their colour, so match them to the muted labels.
     wordmark: {
       true: { icon: "text-muted-foreground" },
     },

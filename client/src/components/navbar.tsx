@@ -12,10 +12,8 @@ const navbar = tv({
       "sticky top-0 z-50 border-b border-nav-edge bg-nav text-nav-foreground",
     nav: "mx-auto max-w-5xl px-4",
     bar: "flex h-16 items-center justify-between",
-    // Desktop only: the skill logos repeated from the Skills section, as decoration.
     skills: "max-lg:hidden",
     navRight: "ml-auto flex items-center gap-4",
-    // Desktop only; on mobile the link is in the menu instead.
     koFi: "rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 max-sm:hidden",
     koFiImage: "h-9 w-auto",
     menuButton:
@@ -47,13 +45,10 @@ function Navbar(): JSX.Element {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { data: profile } = useProfile();
 
-  // Shows once the Ko-fi link is in the profile. In development, a placeholder
-  // stands in until then, so it can be styled; production builds hide it.
   const koFiHref =
     profile?.links.find((link) => link.kind === "ko-fi")?.href ??
     (import.meta.env.DEV ? "https://ko-fi.com" : undefined);
 
-  // Escape closes the menu and returns focus to the button
   useEffect(() => {
     if (!isMenuOpen) return;
     const handleKeyDown = (event: KeyboardEvent): void => {

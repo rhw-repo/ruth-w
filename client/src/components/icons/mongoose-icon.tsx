@@ -2,7 +2,6 @@ import type { JSX } from "react";
 
 type IconProps = { className?: string };
 
-// The viewBox is cropped to the drawing (y 7.4 to 16.6) so it doesn't sit in empty space.
 function MongooseIcon({ className }: Readonly<IconProps>): JSX.Element {
   return (
     <svg

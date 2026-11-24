@@ -1,5 +1,4 @@
-// Jump links to the home page's sections. Rendered as plain <a> elements, not router
-// links, so the browser handles the scroll and moves focus to the section.
+// Plain <a> jump links, not router links, so the browser scrolls and moves focus to the section.
 export type NavItem = { label: string; href: string };
 
 export const navItems: NavItem[] = [

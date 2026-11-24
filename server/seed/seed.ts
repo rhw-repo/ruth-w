@@ -72,7 +72,6 @@ const projects: ProjectSeed[] = [
 
 type ProfileSeed = Omit<Profile, "_id" | "createdAt" | "updatedAt">;
 
-// Add buymeacoffee once it exists
 const profile: ProfileSeed = {
   name: "Ruth Westnidge",
   role: "Software Developer",
@@ -103,7 +102,6 @@ const profile: ProfileSeed = {
   ],
 };
 
-// Matches on title, so running the script again updates the project instead of duplicating it.
 async function upsertProject(data: ProjectSeed): Promise<void> {
   const existing = await ProjectModel.findOne({ title: data.title });
   if (existing) {
@@ -120,7 +118,6 @@ async function seedProjects(): Promise<void> {
   await Promise.all(projects.map(upsertProject));
 }
 
-// There's only one profile, so this updates it if it exists.
 async function upsertProfile(): Promise<void> {
   const existing = await ProfileModel.findOne();
   if (existing) {

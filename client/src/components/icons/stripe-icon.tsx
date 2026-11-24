@@ -3,8 +3,7 @@ import { cn } from "@/lib/utils";
 
 type IconProps = { className?: string };
 
-// A wordmark, so max-w-none comes after className to lift the logo width cap.
-// Blurple is about 2.9:1 on zinc-900; for Stripe's dark-background version use currentColor.
+// max-w-none comes after className so it overrides the logo width cap.
 function StripeIcon({ className }: Readonly<IconProps>): JSX.Element {
   return (
     <svg

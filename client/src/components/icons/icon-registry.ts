@@ -31,11 +31,9 @@ import {
 type IconEntry = {
   label: string;
   Icon: ComponentType<{ className?: string }>;
-  // The logo spells out the name, so a visible label would repeat it (keep it for screen readers).
   wordmark?: true;
 };
 
-// One entry per icon. The key is the icon's fixed id, used as the React key wherever it's listed.
 export const icons = {
   bcrypt: {
     label: "bcrypt",
@@ -95,7 +93,6 @@ export const icons = {
 
 export type IconId = keyof typeof icons;
 
-// Finds an icon by its label, e.g. a project tag from the API ("Tailwind CSS" → "tailwind").
 export const iconIdByLabel = new Map<string, IconId>(
   Object.entries(icons).map(([id, { label }]) => [label, id as IconId]),
 );

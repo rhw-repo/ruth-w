@@ -6,7 +6,6 @@ import { icons, type IconId } from "@/components/icons/icon-registry";
 import { navItems } from "@/config/nav-items.ts";
 import { useProfile } from "@/hooks/use-profile";
 
-// Read once when the module loads, so rendering stays pure
 const YEAR = new Date().getFullYear();
 
 const footer = tv({
@@ -37,7 +36,6 @@ function Footer(): JSX.Element {
   const { data: profile } = useProfile();
   const links = profile?.links ?? [];
   const email = links.find((link) => link.kind === "email");
-  // Same rule as SocialLinks: profile links with a logo in the registry
   const socials = links.flatMap((link) =>
     link.kind in icons
       ? [{ ...link, Icon: icons[link.kind as IconId].Icon }]
@@ -53,7 +51,6 @@ function Footer(): JSX.Element {
               Navigation
             </h2>
             <ul className={styles.navList()}>
-              {/* No Home link when already on the home page */}
               {pathname !== "/" && (
                 <li>
                   <Link
