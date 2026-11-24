@@ -1,7 +1,8 @@
-import type { JSX } from "react";
+import { useEffect, useRef, type JSX } from "react";
 import { Link, useLocation } from "react-router";
 import { tv } from "tailwind-variants/lite";
 import ExternalLink from "@/components/external-link.tsx";
+import GlassSurface from "@/components/glass-surface";
 import { icons, type IconId } from "@/components/icons/icon-registry";
 import { navItems } from "@/config/nav-items.ts";
 import { useProfile } from "@/hooks/use-profile";
@@ -27,10 +28,120 @@ const footer = tv({
     bottom:
       "flex flex-col items-center gap-4 py-8 text-center text-sm text-muted-foreground md:flex-row md:justify-between",
     link: "rounded-md transition-colors hover:text-headline focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none",
+    nameArea: "relative @container pb-12",
+    name: "py-4 text-center font-heading text-[10cqi] leading-none font-semibold tracking-tight whitespace-nowrap text-headline md:text-[8cqi]",
+    pill: "group pointer-events-none absolute top-0 left-0 hidden lg:pointer-fine:motion-safe:block",
+    // Fade the glass itself, not the pill wrapper: opacity below 1 on an ancestor
+    // stops backdrop-filter from seeing the name behind it.
+    glass:
+      "invisible size-24 opacity-0 transition-[opacity,visibility] duration-300 group-data-[active=true]:visible group-data-[active=true]:opacity-100 motion-reduce:transition-none forced-colors:hidden [@media(prefers-reduced-transparency:reduce)]:hidden",
   },
 });
 
 const styles = footer();
+
+// Same conditions as the pill's lg:pointer-fine:motion-safe:block class.
+const FOLLOW_QUERY =
+  "(min-width: 64rem) and (pointer: fine) and (prefers-reduced-motion: no-preference)";
+
+const clamp = (value: number, min: number, max: number): number =>
+  Math.min(Math.max(value, min), Math.max(min, max));
+
+function FooterName(): JSX.Element {
+  const areaRef = useRef<HTMLDivElement>(null);
+  const pillRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const area = areaRef.current;
+    const pill = pillRef.current;
+    if (!area || !pill) return;
+    const follow = window.matchMedia(FOLLOW_QUERY);
+    const target = { x: 0, y: 0 };
+    const position = { x: 0, y: 0 };
+    let raf = 0;
+    let last = 0;
+
+    // Pointer positions are CSS pixels, so the transform is in px.
+    const place = (): void => {
+      const x = position.x - pill.offsetWidth / 2;
+      const y = position.y - pill.offsetHeight / 2;
+      pill.style.transform = `translate3d(${String(x)}px, ${String(y)}px, 0)`;
+    };
+
+    const frame = (now: number): void => {
+      const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
+      last = now;
+      const ease = 1 - Math.exp(-dt * 10);
+      position.x += (target.x - position.x) * ease;
+      position.y += (target.y - position.y) * ease;
+      place();
+      const gap =
+        Math.abs(target.x - position.x) + Math.abs(target.y - position.y);
+      if (gap > 0.1) {
+        raf = requestAnimationFrame(frame);
+      } else {
+        raf = 0;
+        last = 0;
+      }
+    };
+
+    const aim = (event: PointerEvent): void => {
+      const rect = area.getBoundingClientRect();
+      const halfWidth = pill.offsetWidth / 2;
+      const halfHeight = pill.offsetHeight / 2;
+      target.x = clamp(
+        event.clientX - rect.left,
+        halfWidth,
+        rect.width - halfWidth,
+      );
+      target.y = clamp(
+        event.clientY - rect.top,
+        halfHeight,
+        rect.height - halfHeight,
+      );
+    };
+
+    const onEnter = (event: PointerEvent): void => {
+      if (!follow.matches) return;
+      aim(event);
+      position.x = target.x;
+      position.y = target.y;
+      place();
+      pill.dataset.active = "true";
+    };
+
+    const onMove = (event: PointerEvent): void => {
+      if (!follow.matches) return;
+      aim(event);
+      raf ||= requestAnimationFrame(frame);
+    };
+
+    const onLeave = (): void => {
+      delete pill.dataset.active;
+    };
+
+    area.addEventListener("pointerenter", onEnter);
+    area.addEventListener("pointermove", onMove, { passive: true });
+    area.addEventListener("pointerleave", onLeave);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      area.removeEventListener("pointerenter", onEnter);
+      area.removeEventListener("pointermove", onMove);
+      area.removeEventListener("pointerleave", onLeave);
+    };
+  }, []);
+
+  // The © line already gives the name as text, so this repeat is hidden from screen readers.
+  return (
+    <div ref={areaRef} aria-hidden="true" className={styles.nameArea()}>
+      <p className={styles.name()}>Ruth Westnidge</p>
+      <div ref={pillRef} className={styles.pill()}>
+        <GlassSurface className={styles.glass()} />
+      </div>
+    </div>
+  );
+}
 
 function Footer(): JSX.Element {
   const { pathname } = useLocation();
@@ -128,6 +239,8 @@ function Footer(): JSX.Element {
           <p>© {YEAR} Ruth Westnidge</p>
           <p>Built with React &amp; Tailwind CSS</p>
         </div>
+
+        <FooterName />
       </div>
     </footer>
   );
