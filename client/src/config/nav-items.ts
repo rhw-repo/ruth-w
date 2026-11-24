@@ -1,7 +1,9 @@
-export type NavItem = { label: string; to: string };
+// Plain <a> jump links, not router links, so the browser scrolls and moves focus to the section.
+export type NavItem = { label: string; href: string };
 
 export const navItems: NavItem[] = [
-  { label: "Link 1", to: "/link-1" },
-  { label: "Link 2", to: "/link-2" },
-  { label: "Link 3", to: "/link-3" },
+  { label: "About", href: "/#about" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Contact", href: "/#contact" },
 ];

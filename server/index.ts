@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response } from "express";
 import helmet from "helmet";
 import cors from "cors";
+import * as Sentry from "@sentry/node";
 import { connectToDatabase } from "./db.ts";
 import { ProjectModel } from "./models/project.ts";
 import { ProfileModel } from "./models/profile.ts";
@@ -39,6 +40,8 @@ app.get("/api/profile", async (_req: Request, res: Response) => {
   }
   res.json(profile);
 });
+
+Sentry.setupExpressErrorHandler(app);
 
 await connectToDatabase();
 

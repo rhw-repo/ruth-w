@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 // link (<a>) rather than a <button>, so it can navigate and download files.
 // Changes from the original: link semantics, rem units, tv() classes, a CSS border
 // fallback when WebGL is unavailable, and the shine stays still under reduced motion.
+// Copyright (c) 2026 David Haz. MIT + Commons Clause: https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md
 
 type SpecularLinkSize = "sm" | "md" | "lg";
 
@@ -26,12 +27,10 @@ type SpecularLinkProps = Omit<
   size?: SpecularLinkSize;
   /** Corner radius in rem. */
   radius?: number;
-  /** Any CSS colour, including var(--…). */
   tint?: string;
   tintOpacity?: number;
   /** Backdrop blur in rem. */
   blur?: number;
-  /** Any CSS colour, including var(--…). */
   textColor?: string;
   /** Hex or named colour (drawn on a canvas, so var(--…) won't work). */
   lineColor?: string;
@@ -82,6 +81,7 @@ const specularLink = tv({
   },
 });
 
+// The canvas extends 1.5rem past the link on every side (-inset-6), so the glow isn't clipped.
 const PAD_REM = 1.5;
 const TAU = Math.PI * 2;
 
@@ -602,6 +602,8 @@ function SpecularLink({
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);
       gl.deleteProgram(program);
+      // No loseContext() here: StrictMode remounts reuse this canvas, and a lost
+      // context can't be recovered (Chrome then shows a sad-face placeholder).
     };
   }, []);
 
@@ -624,7 +626,11 @@ function SpecularLink({
       }
       {...rest}
     >
-      <canvas ref={canvasRef} className={styles.canvas()} aria-hidden="true" />
+      <canvas // NOSONAR: not focusable (no tabindex, pointer-events-none), so aria-hidden is safe
+        ref={canvasRef}
+        className={styles.canvas()}
+        aria-hidden="true"
+      />
       <span className={styles.label()}>{children}</span>
     </a>
   );

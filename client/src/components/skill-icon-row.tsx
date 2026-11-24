@@ -16,6 +16,7 @@ type SkillIconRowProps = {
   className?: string;
 };
 
+// Decorative: hidden from screen readers because it repeats the Skills section.
 function SkillIconRow({ className }: Readonly<SkillIconRowProps>): JSX.Element {
   return (
     <ul aria-hidden="true" className={cn(styles.root(), className)}>

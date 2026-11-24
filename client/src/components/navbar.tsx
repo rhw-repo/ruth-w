@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type JSX } from "react";
-import { NavLink } from "react-router";
 import { tv } from "tailwind-variants/lite";
 import SocialLinks from "@/components/social-links.tsx";
 import ExternalLink from "@/components/external-link";
@@ -33,7 +32,7 @@ const navbar = tv({
     {
       placement: "menu",
       class: {
-        link: "text-muted-foreground hover:text-headline aria-[current=page]:text-nav-foreground",
+        link: "text-muted-foreground hover:text-headline",
       },
     },
   ],
@@ -114,16 +113,16 @@ function Navbar(): JSX.Element {
         <div id="nav-menu" hidden={!isMenuOpen} className={styles.menu()}>
           <ul className={styles.menuList()}>
             {navItems.map((item) => (
-              <li key={item.to}>
-                <NavLink
-                  to={item.to}
+              <li key={item.href}>
+                <a
+                  href={item.href}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
                   className={styles.link({ placement: "menu" })}
                 >
                   {item.label}
-                </NavLink>
+                </a>
               </li>
             ))}
             {koFiHref && (

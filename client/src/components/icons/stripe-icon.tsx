@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 
 type IconProps = { className?: string };
 
+// max-w-none comes after className so it overrides the logo width cap.
 function StripeIcon({ className }: Readonly<IconProps>): JSX.Element {
   return (
     <svg

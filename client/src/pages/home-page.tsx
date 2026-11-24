@@ -26,15 +26,17 @@ const hero = tv({
       "max-lg:order-4 hero-split:col-start-2 hero-split:row-span-2 hero-split:row-start-1",
   },
 });
+
 const heroStyles = hero();
 
 const projects = tv({
   slots: {
-    root: "mx-auto max-w-5xl px-4 py-12",
+    root: "mx-auto max-w-5xl scroll-mt-16 px-4 py-12",
     heading: "mb-6 text-xs tracking-wide text-headline uppercase",
     grid: "grid gap-8",
   },
 });
+
 const projectStyles = projects();
 
 function ProjectList(): JSX.Element {
@@ -45,6 +47,7 @@ function ProjectList(): JSX.Element {
 
   return (
     <section
+      id="projects"
       aria-labelledby="projects-heading"
       className={projectStyles.root()}
     >

@@ -10,6 +10,7 @@ type WordmarkOptions = {
   mark?: ReactNode;
 };
 
+// max-w-none comes after className so it overrides the logo width cap.
 const wordmark = tv({
   base: "flex max-w-none items-center gap-[0.3em] text-xs leading-none whitespace-nowrap",
   variants: {
@@ -40,6 +41,7 @@ export function createWordmark(
 
 export const expressMark = <ExpressIcon className="size-[1.2em] shrink-0" />;
 
+// Drawn from a screenshot, as there's no official SVG; the teal is an estimate.
 export const bcryptMark = (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="size-[1.2em] shrink-0">
     <rect

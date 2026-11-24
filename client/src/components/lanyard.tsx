@@ -1,3 +1,6 @@
+// Adapted from the React Bits Lanyard component: https://reactbits.dev/components/lanyard
+// Copyright (c) 2026 David Haz. MIT + Commons Clause: https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md
+
 import { useEffect, useLayoutEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import type { JSX } from "react/jsx-runtime";
@@ -391,6 +394,7 @@ const luminance = (rgb: Rgb) =>
 const toCss = (rgb: Rgb, alpha = 1) =>
   `rgba(${[...rgb.map((c) => Math.round(c * 255)), alpha].join(", ")})`;
 
+// Canvas can't read CSS variables, so resolve `var(--name)` from the page first.
 const resolveColor = (element: Element, value: string) => {
   const name = /^var\((--[\w-]+)\)$/.exec(value.trim())?.[1];
   if (!name) return value;
@@ -720,6 +724,7 @@ const drawFitted = (
   ctx.drawImage(image, (width - w) / 2, (height - h) / 2, w, h);
 };
 
+// Canvas fonts need px; these are texture pixels scaled from the face width.
 const paintCaption = (
   ctx: CanvasRenderingContext2D,
   width: number,

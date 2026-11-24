@@ -4,5 +4,5 @@ import { expressIntegration } from "@sentry/node";
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   integrations: [expressIntegration()],
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.1,
 });

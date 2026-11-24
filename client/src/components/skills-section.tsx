@@ -5,13 +5,14 @@ import { skillGroups } from "@/config/skills";
 
 const skills = tv({
   slots: {
-    root: "mx-auto max-w-5xl px-4 py-12",
+    root: "mx-auto max-w-5xl scroll-mt-16 px-4 py-12",
     heading: "mb-6 text-xs tracking-wide text-headline uppercase",
     groups: "grid gap-8 sm:grid-cols-3",
     stackGroup:
       "grid content-start gap-4 bg-zinc-900 ring-1 ring-zinc-50/30 p-4 rounded-sm",
     groupLabel: "text-xl tracking-wide text-headline uppercase",
     tags: "grid grid-cols-2 gap-x-4 gap-y-6",
+    // min-h, not h, so enlarged text grows the box instead of overflowing.
     tag: "flex min-h-20 flex-col items-center gap-2 rounded-sm border border-zinc-50/50 px-2 py-2.5 text-center text-sm",
     label: "text-muted-foreground",
     icon: "h-8 w-auto max-w-8",
@@ -37,7 +38,11 @@ function SkillItem({ id }: Readonly<{ id: IconId }>): JSX.Element {
 
 function SkillsSection(): JSX.Element {
   return (
-    <section aria-labelledby="skills-heading" className={styles.root()}>
+    <section
+      id="skills"
+      aria-labelledby="skills-heading"
+      className={styles.root()}
+    >
       <h2 id="skills-heading" className={styles.heading()}>
         Skills
       </h2>

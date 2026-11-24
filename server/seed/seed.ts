@@ -94,6 +94,11 @@ const profile: ProfileSeed = {
       label: "Email",
     },
     { kind: "cv", href: "/ruth-westnidge-cv.pdf", label: "CV" },
+    {
+      kind: "youtube",
+      href: "https://youtube.com/shorts/w4yD-KmG8jc?si=13uyvI56M-GpOK7E",
+      label: "YouTube",
+    },
   ],
 };
 

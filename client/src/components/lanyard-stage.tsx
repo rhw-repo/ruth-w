@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 const Lanyard = lazy(() => import("@/components/lanyard"));
 
+// Loads immediately: deferring to the load event or an idle browser was tried and made mobile TBT worse.
 const stage = tv({
   slots: {
     root: "relative",
@@ -23,6 +24,7 @@ type LanyardStageProps = {
   className?: string;
 };
 
+// Must sit after the Lanyard inside Suspense, so it fires after the Lanyard's first frame.
 function OnMounted({ onReady }: Readonly<{ onReady: () => void }>): null {
   useEffect(() => {
     const id = requestAnimationFrame(onReady);
